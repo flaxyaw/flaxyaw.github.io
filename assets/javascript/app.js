@@ -8,7 +8,7 @@ class _app {
   backgroundToggler = false;
   shouldIgnoreVideo = false;
   effects = ['bounce', 'flash', 'pulse', 'rubberBand', 'shake', 'swing', 'tada', 'wobble', 'jello'];
-  brandDescription = ['9 years old paster', 'pro roblox players', 'unknowcheats paster', 'professiona ltrashtalker', 'esoterik fanboy', 'sxck best coder c:', 'all i want for xmas is skeet to be good...'];
+  brandDescription = ['9 years old paster', 'pro roblox players', 'unknowcheats paster', 'professiona ltrashtalker', 'esoterik fanboy', 'sxck best coder c:', 'all i want for xmas is skeet to be good...',  'Flax = cool ];
 
   titleChanger = (text, delay) => {
     if (!text) return;
