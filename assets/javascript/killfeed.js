@@ -1,7 +1,7 @@
 $(function() {
     var tKillNames = ["miraii", "flax", "LuckyCharms", "f1nn", "d1no", "$PopoPiraten$"];
     var ctKillNames = ["nn"]; 
-    var weapons = ["ssg", "deagle", "awp", "g3sg1"];
+    var weapons = ["ssg"];
     var $killFeedContainer = $('.kill-feed');
     var $killFeedElement = $('.kill-feed > div').hide();
 
