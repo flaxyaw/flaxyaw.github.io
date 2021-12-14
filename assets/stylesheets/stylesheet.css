@@ -75,7 +75,7 @@ input {
 
 #clockDisplay {
     position: relative;
-    background-color: none;
+    background-color: transparent;
 }
 
 .button {
