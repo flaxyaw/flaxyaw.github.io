@@ -15,39 +15,38 @@ const ipgeolocation = 'https://api.ipgeolocation.io/ipgeo?apiKey=1785ed53312f42c
 const timeouts = [];
 
 const mobileAndTabletCheck = () => /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-
-$(document).ready(() => {
+    
+    $(document).ready(() => {
   const links = [
     {
-      name: 'JustMiraii',
-      link: 'JustMiraii',
+      name: 'Miraii',
+      link: 'UCVPMhP_svSMDeUgk2zl307A',
     },
     {
-      name: 'LuckyCharms',
-      link: 'LeMiraii',
+      name: 'Flax',
+      link: 'UCV9PS9Ng-2cQ8bYAwyZWAtw',
     },
     {
-      name: 'sxck',
-      link: 'sxck1337',
+      name: 'Crise',
+      link: 'UC6-uohHcqtYKxmovqPWCOVA',
+    },
+      name: 'Miraii',
+      link: 'UCVPMhP_svSMDeUgk2zl307A',
     },
     {
-      name: 'Strafe',
-      link: 'StrafeTheGuy',
+      name: 'Flax',
+      link: 'UCV9PS9Ng-2cQ8bYAwyZWAtw',
     },
     {
-      name: 'Da booster',
-      link: 'xpboosting',
-    },
-    {
-      name: 'kaji',
-      link: 'zzqc',
+      name: 'Crise',
+      link: 'UC6-uohHcqtYKxmovqPWCOVA',
     },
   ];
 
   for (let i in links) {
     let link = links[i];
 
-    $('#marquee').append(`<a href="https://steamcommunity.com/id/${link.link}" target="_BLANK">${link.name}</a>`);
+    $('#marquee').append(`<a href="youtube.com/channel/${link.link}" target="_BLANK">${link.name}</a>`);
 
     link = $('#marquee').children('a').last();
 
@@ -60,7 +59,7 @@ $(document).ready(() => {
     app.shouldIgnoreVideo = true;
   }
 
-  app.titleChanger(['VoidCrimelife', 'crmnl', 'Tr0niX', 'Just the best', 'Mozart > All', '=', 'miraii.net']);
+  app.titleChanger(['VoidCrimelife', 'immunity', 'Tr0niX', 'Just the best', 'Mozart > All', '=', 'miraii.net']);
   app.iconChanger(['assets/icons/roses/rose1.jpg', 'assets/icons/roses/rose2.jpg', 'assets/icons/roses/rose3.jpg', 'assets/icons/roses/rose4.jpg', 'assets/icons/roses/rose5.jpg', 'assets/icons/roses/rose6.jpg', 'assets/icons/roses/rose7.jpg', 'assets/icons/roses/rose8.jpg', 'assets/icons/roses/rose1.jpg']);
 });
 
