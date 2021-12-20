@@ -241,12 +241,6 @@ input {
   left: 5px;
 }
 
-.crmnl {
-  position: absolute;
-  bottom: 10;
-  left: 5px;
-}
-
 .trollface-light {
   -webkit-filter: invert(100%);
   -moz-filter: invert(100%);
