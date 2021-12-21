@@ -1,23 +1,13 @@
-/*
-Thanks for:
-    - Google
-    - StackOverflow
-    - jQuery
-    - jQuery Marquee
-    - animate.css
-
-*/
-
 'use strict';
 
+const ipgeolocation = 'https://api.ipgeolocation.io/ipgeo?apiKey=1785ed53312f42c7b5ef89f65c3faa1a';
 
 const timeouts = [];
 
 const mobileAndTabletCheck = () => /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    
-    $(document).ready(() => {
+
+$(document).ready(() => {
   const links = [
-    {
       name: 'Miraii',
       link: 'UCVPMhP_svSMDeUgk2zl307A',
     },
@@ -41,11 +31,10 @@ const mobileAndTabletCheck = () => /Android|webOS|iPhone|iPad|iPod|BlackBerry|IE
       link: 'UC6-uohHcqtYKxmovqPWCOVA',
     },
   ];
-
   for (let i in links) {
     let link = links[i];
 
-    $('#marquee').append(`<a href="youtube.com/channel/${link.link}" target="_BLANK">${link.name}</a>`);
+    $('#marquee').append(`<a href="https://www.youtube.com/channel/${link.link}" target="_BLANK">${link.name}</a>`);
 
     link = $('#marquee').children('a').last();
 
@@ -58,7 +47,7 @@ const mobileAndTabletCheck = () => /Android|webOS|iPhone|iPad|iPod|BlackBerry|IE
     app.shouldIgnoreVideo = true;
   }
 
-  app.titleChanger(['VoidCrimelife', 'immunity', 'Tr0niX', 'Just the best', 'Mozart > All', '=', 'miraii.net']);
+  app.titleChanger(['ImmunityV3', 'Hype', 'Mozart', '=', '♥', 'Flax', 'Crise', 'Miraii', 'Just a cringe HvH kid']);
   app.iconChanger(['assets/icons/roses/rose1.jpg', 'assets/icons/roses/rose2.jpg', 'assets/icons/roses/rose3.jpg', 'assets/icons/roses/rose4.jpg', 'assets/icons/roses/rose5.jpg', 'assets/icons/roses/rose6.jpg', 'assets/icons/roses/rose7.jpg', 'assets/icons/roses/rose8.jpg', 'assets/icons/roses/rose1.jpg']);
 });
 
@@ -150,7 +139,7 @@ $.getJSON(ipgeolocation, (data) => {
 
       clearCursor();
 
-      writeLine([`<i style='color: #F62459'>miraii.net $$$</i>`], 120, 500, () => {
+      writeLine([`<i style='color: #F62459'>obnoxious.club $$$</i>`], 120, 500, () => {
         timeouts.push(
           setTimeout(() => {
             if (app.skippedIntro) return;
