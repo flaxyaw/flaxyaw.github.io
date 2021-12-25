@@ -1,6 +1,16 @@
+/*
+Thanks for:
+    - Google
+    - StackOverflow
+    - jQuery
+    - jQuery Marquee
+    - animate.css
+
+*/
+
 'use strict';
 
-const ipgeolocation = 'https://api.ipgeolocation.io/ipgeo?apiKey=2401d39605d54fd099aba79be2e2c270';
+const ipgeolocation = 'https://api.ipgeolocation.io/ipgeo?apiKey=1785ed53312f42c7b5ef89f65c3faa1a';
 
 const timeouts = [];
 
@@ -8,20 +18,9 @@ const mobileAndTabletCheck = () => /Android|webOS|iPhone|iPad|iPod|BlackBerry|IE
 
 $(document).ready(() => {
   const links = [
-<<<<<<< HEAD
-<<<<<<< HEAD
-      name: 'Miraii',
-      link: 'UCVPMhP_svSMDeUgk2zl307A',
-=======
     {
       name: 'JustMiraii',
       link: 'JustMiraii',
->>>>>>> parent of 775c18d (Update portfolio.js)
-=======
-    {
-      name: 'JustMiraii',
-      link: 'JustMiraii',
->>>>>>> parent of 775c18d (Update portfolio.js)
     },
     {
       name: 'LuckyCharms',
@@ -44,18 +43,11 @@ $(document).ready(() => {
       link: 'zzqc',
     },
   ];
+
   for (let i in links) {
     let link = links[i];
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-    $('#marquee').append(`<a href="https://www.youtube.com/channel/${link.link}" target="_BLANK">${link.name}</a>`);
-=======
     $('#marquee').append(`<a href="https://steamcommunity.com/id/${link.link}" target="_BLANK">${link.name}</a>`);
->>>>>>> parent of 775c18d (Update portfolio.js)
-=======
-    $('#marquee').append(`<a href="https://steamcommunity.com/id/${link.link}" target="_BLANK">${link.name}</a>`);
->>>>>>> parent of 775c18d (Update portfolio.js)
 
     link = $('#marquee').children('a').last();
 
@@ -68,15 +60,7 @@ $(document).ready(() => {
     app.shouldIgnoreVideo = true;
   }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-  app.titleChanger(['ImmunityV3', 'Hype', 'Mozart', '=', '♥', 'Flax', 'Crise', 'Miraii', 'Just a cringe HvH kid']);
-=======
   app.titleChanger(['VoidCrimelife', 'crmnl', 'Tr0niX', 'Just the best', 'Mozart > All', '=', 'miraii.net']);
->>>>>>> parent of 775c18d (Update portfolio.js)
-=======
-  app.titleChanger(['VoidCrimelife', 'crmnl', 'Tr0niX', 'Just the best', 'Mozart > All', '=', 'miraii.net']);
->>>>>>> parent of 775c18d (Update portfolio.js)
   app.iconChanger(['assets/icons/roses/rose1.jpg', 'assets/icons/roses/rose2.jpg', 'assets/icons/roses/rose3.jpg', 'assets/icons/roses/rose4.jpg', 'assets/icons/roses/rose5.jpg', 'assets/icons/roses/rose6.jpg', 'assets/icons/roses/rose7.jpg', 'assets/icons/roses/rose8.jpg', 'assets/icons/roses/rose1.jpg']);
 });
 
@@ -168,7 +152,7 @@ $.getJSON(ipgeolocation, (data) => {
 
       clearCursor();
 
-      writeLine([`<i style='color: #F62459'>obnoxious.club $$$</i>`], 120, 500, () => {
+      writeLine([`<i style='color: #F62459'>miraii.net $$$</i>`], 120, 500, () => {
         timeouts.push(
           setTimeout(() => {
             if (app.skippedIntro) return;
