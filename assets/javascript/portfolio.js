@@ -9,8 +9,14 @@ const mobileAndTabletCheck = () => /Android|webOS|iPhone|iPad|iPod|BlackBerry|IE
 $(document).ready(() => {
   const links = [
 <<<<<<< HEAD
+<<<<<<< HEAD
       name: 'Miraii',
       link: 'UCVPMhP_svSMDeUgk2zl307A',
+=======
+    {
+      name: 'JustMiraii',
+      link: 'JustMiraii',
+>>>>>>> parent of 775c18d (Update portfolio.js)
 =======
     {
       name: 'JustMiraii',
@@ -42,7 +48,11 @@ $(document).ready(() => {
     let link = links[i];
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     $('#marquee').append(`<a href="https://www.youtube.com/channel/${link.link}" target="_BLANK">${link.name}</a>`);
+=======
+    $('#marquee').append(`<a href="https://steamcommunity.com/id/${link.link}" target="_BLANK">${link.name}</a>`);
+>>>>>>> parent of 775c18d (Update portfolio.js)
 =======
     $('#marquee').append(`<a href="https://steamcommunity.com/id/${link.link}" target="_BLANK">${link.name}</a>`);
 >>>>>>> parent of 775c18d (Update portfolio.js)
@@ -59,7 +69,11 @@ $(document).ready(() => {
   }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   app.titleChanger(['ImmunityV3', 'Hype', 'Mozart', '=', '♥', 'Flax', 'Crise', 'Miraii', 'Just a cringe HvH kid']);
+=======
+  app.titleChanger(['VoidCrimelife', 'crmnl', 'Tr0niX', 'Just the best', 'Mozart > All', '=', 'miraii.net']);
+>>>>>>> parent of 775c18d (Update portfolio.js)
 =======
   app.titleChanger(['VoidCrimelife', 'crmnl', 'Tr0niX', 'Just the best', 'Mozart > All', '=', 'miraii.net']);
 >>>>>>> parent of 775c18d (Update portfolio.js)
