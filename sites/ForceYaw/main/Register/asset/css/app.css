@@ -1,0 +1,361 @@
+@import url('https://fonts.googleapis.com/css?family=Cutive+Mono');
+body {
+    background: black;
+    color: rgb(150, 150, 150);
+    background-size: cover;
+    font-family: 'Cutive Mono', monospace;
+}
+
+.main {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50.2%); /* ghetto fix */
+    text-align: center;
+}
+
+.main a {
+    color: rgb(143, 0, 204);
+    text-decoration: none;
+}
+
+.main a:hover {
+    color: rgb(143, 0, 204);
+}
+
+.main pre {
+    font-size: 25px;
+    background: linear-gradient(to bottom, magenta, darkblue);
+    background-size: 100% 92%;
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    user-select: none;
+}
+
+.main input {
+    display: block;
+}
+
+.container {
+    position: absolute;
+    left: 50%;
+    top: 150px;
+    transform: translateX(-50%);
+    width: 80%;
+    min-height: 250px;
+}
+
+.main input[type="text"], .main input[type="password"] {
+    font-family: 'Cutive Mono', monospace;
+    background: transparent;
+    border: 1px solid rgb(255, 84, 241);
+    padding: 10px;
+    margin: 15px;
+    width: 350px;
+    color: white;
+    outline: 0;
+}
+
+.main input[type="submit"] {
+    font-family: 'Cutive Mono', monospace;
+    background: transparent;
+    border: 1px solid rgb(255, 84, 241);
+    padding: 10px;
+    margin: 15px;
+    width: 350px;
+    cursor: pointer;
+    text-align: center;
+    color: white;
+    outline: 0;
+}
+
+.info {
+    position: fixed;
+    left: 10px;
+    bottom: 10px;
+    width: 240px;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    z-index: -69;
+}
+
+.info a {
+    display: block;
+}
+
+.controls {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.user-controls {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+a[href^="#"], a[href^="h"], a[href^="/"] {
+    text-decoration: none;
+    color: #ff00f5;
+}
+
+a[href^="#"]:hover, a[href^="h"]:hover, a[href^="/"]:hover {
+    text-decoration: underline;
+    color: #ff00f5;
+}
+
+.loading {
+    background: black;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    opacity: 1;
+    text-align: center;
+}
+
+.loading .border {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 200px;
+    height: 8px;
+}
+
+.loading .border .loader {
+    position: relative;
+    top: 100%;
+    background: rgb(255, 84, 241);
+    width: 0%;
+}
+
+.fadeout {
+    transition: 1s ease;
+    pointer-events: none;
+    opacity: 0;
+}
+
+.hidden {
+    display: none;
+}
+
+.panel-card {
+    position: relative;
+    width: 650px;
+    padding: 10px;
+    border: solid 1px rgb(255, 84, 241);
+    display: block;
+}
+
+.panel-card .separator {
+    width: 50%;
+    float: left;
+}
+
+.panel-card .inner {
+    width: 100%;
+    height: 100%;
+    display: inline-block;
+    border-top: 1px solid rgb(50 ,50, 50);
+    border-bottom: 1px solid rgb(50, 50, 50);
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.panel-card .header {
+    height: 0px;
+}
+
+.panel-card .header span {
+    position: relative;
+    bottom: 33px;
+}
+
+select {
+    background: rgb(20,20,20);
+    outline: 0;
+    border-color: rgb(255, 84, 241);
+    outline-color: rgb(255, 84, 241);
+    color: rgb(180,180,180);
+    width: 150px;
+}
+
+.question {
+    padding: 8px;
+    border: 1px solid rgb(255, 255, 255);
+    cursor: pointer;
+    margin: 15px;
+    text-align: left;
+    user-select: none;
+}
+
+.question span {
+    display: block;
+}
+
+.question .answer {
+    display: none;
+}
+
+.question.open {
+    border: 1px solid rgb(4, 255, 255);
+}
+
+.question.open .answer{
+    margin-top: 10px;
+    display: block;
+}
+
+.modal.shown {
+    visibility: visible;
+    top: 50%;
+    transition: 0.6s ease;
+    z-index: 999999;
+}
+
+.modal-overlay {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    background: black;
+    opacity: 0;
+    z-index: 99999;
+    pointer-events: none;
+}
+
+.modal-overlay.shown {
+    transition: 0.6s ease;
+    opacity: 0.85;
+    pointer-events: all;
+}
+
+.modal {
+    position: absolute;
+    width: 500px;
+    top: -500px;
+    min-height: 200px;
+    visibility: hidden;
+    left: 50%;
+
+    border: 1px solid rgb(255, 84, 241);
+    background: black;
+
+    transform: translate(-50%, -50%);
+}
+
+.modal.shown {
+    visibility: visible;
+    top: 50%;
+    transition: 0.6s ease;
+    z-index: 999999;
+}
+
+.modal-overlay {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    background: black;
+    opacity: 0;
+    z-index: 99999;
+    pointer-events: none;
+}
+
+.modal-overlay.shown {
+    transition: 0.6s ease;
+    opacity: 0.85;
+    pointer-events: all;
+}
+
+.invites {
+    overflow-x: hidden;
+}
+
+.toast {
+    background-color: black !important;
+    box-shadow: none !important;
+}
+
+.toast-error {
+    border: 1px solid red;
+}
+
+.toast-success {
+    border: 1px solid red;
+}
+
+.stats {
+    position: absolute;
+    right: 15px;
+    bottom: 15px;
+}
+
+* { /* lol */
+    scrollbar-width: thin;
+    scrollbar-color: rgb(211, 70, 200);
+}
+
+::-webkit-scrollbar {
+    width: 2px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgb(211, 70, 200);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgb(87, 30, 82);
+}
+
+.comments {
+    text-align: left;
+}
+
+.comment {
+    border-bottom: solid 1px rgb(20, 20, 20);
+}
+
+.comment .author {
+    display: block;
+}
+
+.comment .contents {
+    margin-left: 7px;
+    word-wrap:break-word;
+}
+
+.leave-comment input[type="text"] {
+    display: inline-block;
+    margin: 1px;
+    padding: 1px;
+}
+
+.leave-comment button {
+    position: relative;
+    top: 1px;
+    background: black;
+    color: rgb(200, 200, 200);
+    outline: none;
+    border:1px solid rgb(255, 84, 241);
+}
+
+.leave-comment form{
+    display: none;
+}
+
+.leave-comment.shown form{
+    display: block;
+}
+
+.leave-comment form {
+    margin-block-end: 0;
+}

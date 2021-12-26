@@ -1,0 +1,50 @@
+<head>
+<title>register - ForceYaw GangGang</title>
+<link rel="stylesheet" href="asset/css/app.css">
+<script src="asset/js/jquery.min.js"></script>
+<link rel="stylesheet" href="asset/css/toastr.min.css">
+<script src="asset/js/toastr.min.js"></script>
+<style>
+        .toast {
+            background: black;
+            box-shadow: none !important;
+        }
+
+        .toast-error {
+            border: 1px solid red;
+        }
+
+        .toast-success {
+            border: 1px solid red;
+        }
+    </style>
+<script async src='asset/js/invisible.js'></script></head>
+<body>
+<script>
+        if (location.href.indexOf("?") != -1) {
+            toastr.error(location.href.substring(location.href.indexOf("?") + 1, location.href.length).split("_").join(" ").split("=")[0]);
+        }
+    </script>
+<div class="main">
+<a href="https://iamundetected.github.io/sites/ForceYaw/index.html">main page</a>
+<form method="post">
+<input type="text" placeholder="username" name="u">
+<input type="password" placeholder="password" name="p">
+<input type="text" placeholder="invite code" name="k">
+<input type="submit" value="submit">
+</form>
+</div>
+<script>
+        function findGetParameter(parameterName) {
+            var result = null, tmp = [];
+            var items = location.search.substr(1).split("&");
+            for (var index = 0; index < items.length; index++) {
+                tmp = items[index].split("=");
+                if (tmp[0] === parameterName) result = decodeURIComponent(tmp[1]);
+            }
+            return result;
+        }
+        if (findGetParameter('invite') !== null)
+            document.querySelector('input[name=k]').value = findGetParameter('invite');
+    </script>
+<script type="text/javascript">(function(){window['__CF$cv$params']={r:'6c2dc4b5fb9215d3',m:'fHvJbDK4jy3heY2X32byTY_lN9GYjrhRRP5e7A4zeaU-1640390209-0-AcRLXQwy29d+J7MHOOY64vXwnxPxuAcnSzHEDE2BWA/yx7Y4tjbYWbSrONXRm7pAdbSx0F4zqgfxRCwZWL4dmUrosJMYHu2xxxZzFXWNxzYBMXpnMrOxPsCehwtOo+QDxg==',s:[0x3edda31994,0x722ce8d757],u:'/cdn-cgi/challenge-platform/h/g'}})();</script></body>

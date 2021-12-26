@@ -1,0 +1,36 @@
+<head>
+<title>login - millionware</title>
+<link rel="stylesheet" href="asset/css/app.css">
+<script src="asset/js/jquery.min.js"></script>
+<link rel="stylesheet" href="asset/css/toastr.min.css">
+<script src="asset/js/toastr.min.js"></script>
+<style>
+        .toast {
+            background: black;
+            box-shadow: none !important;
+        }
+
+        .toast-error {
+            border: 1px solid red;
+        }
+
+        .toast-success {
+            border: 1px solid red;
+        }
+    </style>
+<script async src='asset/js/invisible.js'></script></head>
+<body>
+<script>
+        if (location.href.indexOf("?") != -1) {
+            toastr.error(location.href.substring(location.href.indexOf("?") + 1, location.href.length).split("_").join(" ").split("=")[0]);
+        }
+    </script>
+<div class="main">
+<a href="https://old.millionware.vip//">main page</a>
+<form method="post">
+<input type="text" placeholder="username" name="u">
+<input type="password" placeholder="password" name="p">
+<input type="submit" value="submit">
+</form>
+</div>
+<script type="text/javascript">(function(){window['__CF$cv$params']={r:'6c2dc4eefad98c5a',m:'.I2nMVDfVPnLMdX_dD.YUxap5byupuPJgAb0g.eOKm8-1640390218-0-AZ4KYuZRiW6FRhaVciJ6zsghmtkUrvnWraREp562/RFRNmzsvgRX9x80VtZO8VBYy3j8OWueTb1QMMBdM+uZFMQMKuMDq5/3m6fn1mEMyDQ1m96aadtN01qgu67VIkzbEA==',s:[0xa5ec9c5041,0x3a7a622d81],u:'/cdn-cgi/challenge-platform/h/g'}})();</script></body>
