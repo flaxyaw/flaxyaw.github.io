@@ -1,25 +1,139 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="index/css/main.css">
-    <link rel="stylesheet" href="index/css/typing.css">
-    <link rel="icon" type="image/x-icon" href="index/other/favicon.ico">
-    <title>Dead but Dreaming</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>BLACK FRIEND</title>
+<link href="uwu/style.css" rel="stylesheet">
+<link href='//fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+<link rel="icon" href="uwu/blacktroll.png">
 </head>
+<div class="troll">
+<div class="troll__head">
+<img class="troll__face" src="uwu/blacktroll.png" srcset="http://serxus.tk/friend/blacktroll.png 2x, http://serxus.tk/friend/blacktroll.png 3x" alt="Trollface" width="140" height="615">
+<div class="troll__right-arm">
+<div class="troll__right-lower-arm">
+<div class="troll__right-hand"></div>
+</div>
+</div>
+<div class="troll__left-arm">
+<div class="troll__left-lower-arm">
+<div class="troll__left-hand"></div>
+</div>
+</div>
+<div class="troll__upper-body">
+<div class="troll__lower-body">
+<div class="troll__right-thigh">
+<div class="troll__right-lower-leg">
+<div class="troll__right-foot"></div>
+</div>
+</div>
+<div class="troll__left-thigh">
+<div class="troll__left-lower-leg">
+<div class="troll__left-foot"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
 <body>
-
-
-    <p class="line-1 anim-typewriter">Dead but Dreaming...    死んでいるが夢を見ている</p>
-
-    <div class="heart">
-        <h1>❤️️</h1>
-    </div>
-
-
-
-
+<div class="text">
+<h1>BLACK FRIEND</h1>
+</div>
+<div class="text">
+<span class="sense"> SerXus</span>
+</div>
+<script>
+      const toggleModal = () => {
+        let modal = document.querySelector("#modal");
+        let backdrop = document.querySelector("#backdrop");
+        let hidden = backdrop.classList.contains("hidden");
+        if (hidden) {
+          modal.classList.add("animate-modal-in");
+          modal.classList.remove("hidden");
+          backdrop.classList.remove("hidden");
+        } else {
+          modal.classList.add("animate-modal-out");
+          setTimeout(() => {
+            modal.classList.add("hidden");
+            backdrop.classList.add("hidden");
+            modal.classList.remove("animate-modal-out");
+          }, 1000);
+        }
+      };
+      let close = document.querySelector("#close");
+      let contact = document.querySelector("#contact");
+      close.addEventListener("click", toggleModal);
+      contact.addEventListener("click", toggleModal);
+    </script>
+<script language="JavaScript">
+      //////////F12 disable code////////////////////////
+          document.onkeypress = function (event) {
+              event = (event || window.event);
+              if (event.keyCode == 123) {
+                 //alert('No F-12');
+                  return false;
+              }
+          }
+          document.onmousedown = function (event) {
+              event = (event || window.event);
+              if (event.keyCode == 123) {
+                  //alert('No F-keys');
+                  return false;
+              }
+          }
+      document.onkeydown = function (event) {
+              event = (event || window.event);
+              if (event.keyCode == 123) {
+                  //alert('No F-keys');
+                  return false;
+              }
+          }
+      var message=":o";      
+      function clickIE() {if (document.all) {(message);return false;}}
+      function clickNS(e) {if
+      (document.layers||(document.getElementById&&!document.all)) {
+      if (e.which==2||e.which==3) {(message);return false;}}}
+      if (document.layers)
+      {document.captureEvents(Event.MOUSEDOWN);document.onmousedown=clickNS;}
+      else{document.onmouseup=clickNS;document.oncontextmenu=clickIE;}
+      document.oncontextmenu=new Function("return false")
+      function disableCtrlKeyCombination(e)
+      {
+      var forbiddenKeys = new Array('a', 'n', 'c', 'x', 'v', 'j' , 'w');
+      var key;
+      var isCtrl;
+      if(window.event)
+      {
+      key = window.event.keyCode;
+      if(window.event.ctrlKey)
+      isCtrl = true;
+      else
+      isCtrl = false;
+      }
+      else
+      {
+      key = e.which;
+      if(e.ctrlKey)
+      isCtrl = true;
+      else
+      isCtrl = false;
+      }
+      if(isCtrl)
+      {
+      for(i=0; i<forbiddenKeys.length; i++)
+      {
+      if(forbiddenKeys[i].toLowerCase() == String.fromCharCode(key).toLowerCase())
+      {
+      alert('Key combination CTRL + '+String.fromCharCode(key) +' has been disabled.');
+      return false;
+      }
+      }
+      }
+      return true;
+      }
+   </script>
+<br>
+<center><audio src="uwu/song.mp3" controls autoplay loop>
+</audio></center>
 </body>
-</html>
