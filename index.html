@@ -1,187 +1,122 @@
 <!DOCTYPE html>
 <html>
-<head>
-<title>FuckJson gang</title>
-<script src="static/app.js"></script>
-<script src="static/rythm.js"></script>
-<script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js"></script>
-<link rel="stylesheet" href="static/s.css">
-<meta name="og:title" content="FuckJson" />
-<meta name="og:type" content="website" />
-<meta name="og:description" content="FuckJson ist die gang" />
-<meta name="theme-color" content="#ff00f5">
-</head>
+  <head>
+    <title>miraii.net</title>
+    <html style="max-height: 100vh;">
+    <meta charset="UTF-8" />
+    <meta name="description" content="miraii.net just the best" />
+    <meta name="keywords" content="justMiraii" />
+    <meta name="author" content="JustMiraii" />
+    <meta name="theme-color" content="#142d6f">
+    <meta property="og:type" content="site" />
+    <meta property="og:title" content="miraii.net" />
+    <meta property="og:url" content="https://miraii.net/" />
+    <meta property="og:image" content="assets/icons/obnoxious.jpg" />
+    <meta name="og::theme-color" content="#142d6f">
+    <meta itemprop="name" content="miraii.net" />
+    <meta itemprop="description" content="miraii.net just the best" />
+    <meta itemprop="image" content="assets/icons/obnoxious.jpg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <html style="max-height: 100vh;">
 
-<body>
-	<div id="click">
+
+    <link rel="shortcut icon" href="assets/icons/obnoxious.jpg" type="image/x-icon" />
+    <link rel="stylesheet" type="text/css" href="assets/stylesheets/stylesheet.css" />
+  </head>
+
+  <body>
+    <script type="text/javascript" src="assets/javascript/app.js"></script>
+	
+
+    <div id="main">
+      <table class="box">
+        <tbody>
+          <tr>
+            <td><span id="line1" style="white-space: pre;"></span></td>
+          </tr>
+          <tr>
+            <td><span id="line2" style="white-space: pre;"></span></td>
+          </tr>
+          <tr>
+            <td><span id="line3 space" style="white-space: pre;"></span></td>
+          </tr>
+          <tr>
+            <td><span id="line4" style="white-space: pre;"></span></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
-    <audio id="bgm" loop>
-    <source src="static/bgm.mp3" type="audio/mp3">
-    </audio>
+    <div class="container" style="display: none;">
+      <h1 class="brand-header">
+        <a href="https://steamcommunity.com/groups/homokrass" target="_BLANK">miraii.club</a>
+      </h1>
 
-<div id="particles-js"></div>
-<div class="main center">
-<div style="font-size: 40px;" class="logo-bass logo-blur"><span class="logo-neon">FuckJson Gang Gang</span></div>
+      <p><span id="brand"></span></p>
+    </div>
 
-</div>
-<div class="controls">
-<a href="https://iamundetected.github.io/backup/index.html">Einfach eine coole webseite / </a> 
-<a href="https://discord.gg/eHaRtJQjAD">FuckJson Discord / </a>
-<a href="https://dev.clynt.de/login.php">FuckJson Panel</a>
-</div>
-<div class="overlay">
-<div class="center">
-Press anywhere to be cool
-</div>
-</div>
+    <div class="marquee-container" style="visibility: hidden;">
+      <pre>|<div id="marquee"></div>|</pre>
+    </div>
+
+    <div class="background" style="display: none;">
+      <div id="pattern"></div>
+
+
+      <audio id="audio" loop="">
+        <source src="assets/others/❤❤.mp3" type="audio/mp3" />
+        <script>
+          const audio = document.getElementById('audio');
+
+          app.audioElement = audio;
+          app.audioElement.volume = 5;
+        </script>
+      </audio>
+
+      <video id="background" loop="">
+        <source src="assets/others/❤.mp4" type="video/mp4" />
+        <script>
+          const video = document.getElementById('background');
+
+          app.videoElement = video;
+          app.videoElement.volume = 0;
+        </script>
+      </video>
+    </div>
+
+    <div class="top-right">
+      <i><a class="skip">Click to join</a></i>
+    </div>
+
+    <div class="footer">
+      <i><a href="https://discord.gg/CQgpRA5aWF" target="_BLANK">Discord server</a></i>
+    </div>
+
+    <div class="footer_left">
+      <i><a href="oldsite/index.html">Links and more</a></i>
+    </div>
 
 <script>
-            var rythm;
-        var initialized = false;
-
-        var init_rythm = () => {
-            rythm = new Rythm();
-            rythm.addRythm('logo-bass', 'pulse', 0, 7);
-            rythm.addRythm('logo-neon', 'textNeon', 80, 150, {
-                to: [77, 0, 60],
-                from: [138, 0, 108]
-            });
-
-            rythm.addRythm('logo-blur', 'blur', 80, 150, {
-                min: 0,
-                max: 4
-            });
-        };
-        bgm.volume = 0.2;
-        var play = () => {
-            if (initialized)
-                return;
-            bgm.play().then(() => {
-                init_rythm();
-                rythm.connectExternalAudioElement(bgm);
-                rythm.start();
-                $(".overlay").addClass("hidden");
-                initialized = true;
-            });
-        };
-        play();
-
-        window.onclick = () => {
-            play();
-        }
-
-        particlesJS("particles-js", {
-            "particles": {
-                "number": {
-                    "value": 160,
-                    "density": {
-                        "enable": true,
-                        "value_area": 800
-                    }
-                },
-                "color": {
-                    "value": "#ffffff"
-                },
-                "shape": {
-                    "type": "circle",
-                    "stroke": {
-                        "width": 0,
-                        "color": "#000000"
-                    },
-                    "polygon": {
-                        "nb_sides": 5
-                    }
-                },
-                "opacity": {
-                    "value": 1,
-                    "random": true,
-                    "anim": {
-                        "enable": true,
-                        "speed": 1,
-                        "opacity_min": 0,
-                        "sync": false
-                    }
-                },
-                "size": {
-                    "value": 3,
-                    "random": true,
-                    "anim": {
-                        "enable": false,
-                        "speed": 4,
-                        "size_min": 0.3,
-                        "sync": false
-                    }
-                },
-                "line_linked": {
-                    "enable": false,
-                    "distance": 150,
-                    "color": "#ffffff",
-                    "opacity": 0.4,
-                    "width": 1
-                },
-                "move": {
-                    "enable": true,
-                    "speed": 1,
-                    "direction": "none",
-                    "random": true,
-                    "straight": false,
-                    "out_mode": "out",
-                    "bounce": false,
-                    "attract": {
-                        "enable": false,
-                        "rotateX": 600,
-                        "rotateY": 600
-                    }
-                }
-            },
-            "interactivity": {
-                "detect_on": "canvas",
-                "events": {
-                    "onhover": {
-                        "enable": true,
-                        "mode": "bubble"
-                    },
-                    "onclick": {
-                        "enable": true,
-                        "mode": "repulse"
-                    },
-                    "resize": true
-                },
-                "modes": {
-                    "grab": {
-                        "distance": 400,
-                        "line_linked": {
-                            "opacity": 1
-                        }
-                    },
-                    "bubble": {
-                        "distance": 250,
-                        "size": 0,
-                        "duration": 2,
-                        "opacity": 0,
-                        "speed": 3
-                    },
-                    "repulse": {
-                        "distance": 400,
-                        "duration": 0.4
-                    },
-                    "push": {
-                        "particles_nb": 4
-                    },
-                    "remove": {
-                        "particles_nb": 2
-                    }
-                }
-            },
-            "retina_detect": true
-        });
+console.log("PopoPiraten 4 L");
+console.log("PopoPiraten 4 L");
+console.log("PopoPiraten 4 L");
+console.log("PopoPiraten 4 L");
+console.log("PopoPiraten 4 L");
+console.log("PopoPiraten 4 L");
+console.log("PopoPiraten 4 L");
+console.log("PopoPiraten 4 L");
+console.log("PopoPiraten 4 L");
+console.log("PopoPiraten 4 L");
+console.log("PopoPiraten 4 L");
 </script>
 
+    <script type="text/javascript" src="assets/javascript/lib/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="assets/javascript/lib/jquery.marquee.min.js"></script>
+    <script type="text/javascript" src="assets/javascript/lib/jquery.cookie.min.js"></script>
+    <script type="text/javascript" src="assets/javascript/lib/typed.min.js"></script>
+    <script type="text/javascript" src="assets/javascript/portfolio.js"></script>
 
 
-</body>
+  </body>
 
 </html>

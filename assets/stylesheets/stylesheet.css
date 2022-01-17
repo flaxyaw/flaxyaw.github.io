@@ -27,6 +27,8 @@ input {
   background-color: #000;
 }
 
+
+
 .button {
 	background-color: none;
 	border: 1px solid white;
@@ -188,12 +190,6 @@ input {
   position: absolute;
   bottom: 0;
   left: 5px;
-}
-
-.trollface-light {
-  -webkit-filter: invert(100%);
-  -moz-filter: invert(100%);
-  -ms-filter: invert(100%);
 }
 
 ::-webkit-scrollbar {
