@@ -1,71 +1,359 @@
-<!doctype html>
-<html lang="eng">
-  <head>
+<html lang="en">
+
+<head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="keywords" content="aki, AKI, aki1337, aki<3">
-    <meta name="language" content="English">
-    <meta name="description" content="Aki best"/>
-    <meta name="author" content="aki owns me nh all "/>
-    <meta content="#ffffff" data-react-helmet="true" name="theme-color" />
-    <meta content="./assets/img/avatar_gif.gif" property="og:image" />
-    <link rel="shortcut icon" href="./assets/img/avatar_ico.ico" type="image/png">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-    <link href="./assets/css/style.css" rel="stylesheet">
-    <link href="./assets/css/font.css" rel="stylesheet">
-    <script type="text/javascript" src="https://www.youtube.com/iframe_api"></script>
-    <title>aki owns me</title>
-  </head>
-  <body>
-    <div class="preloader">
-        <div class="preloader-content">
-            <div class="preloader-content_button">
-                ⠿
-            </div>
+    <title>aki <3</title>
+    <script src="js/jquery-1.10.2.js"></script>
+    <script src="js/jquery-ui.js"></script>
+    <link rel="stylesheet" href="css/jquery-ui.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animate.css">
+    <link rel="shortcut icon" href="favicon.ico" ; type="image/x-icon" />
+
+</head>
+
+<body style="">
+    <!-- window 1 -->
+    <div class="window ui-draggable ui-resizable" id="window-1">
+        <!-- components -->
+        <!-- handle -->
+        <img class="t handle ui-draggable-handle" src=" bar.png">
+        <!-- buttons -->
+        <div class="buttons">
+            <img class="buttons_hover_no" src=" w_buttons.png">
+            <img class="buttons_hover_yes" src=" w_button2.png">
+            <div class="button-close"></div>
+            <div class="button-minimize"></div>
+            <div class="button-maximize"></div>
         </div>
-    </div>
-    <div class="main_container_video">
-        <div id="player"></div>
-    </div>
-    <div class="container">
-        <div class="row">
-            <div class="content">
-                <div class="content-logo">
-                    <img src="./assets/img/avatar.png">
+        <!-- header -->
+        <div class="title">aki</div>
+        <img class="title-icon" src=" folder-icon-3.png">
+        <!-- border -->
+        <img class="tt shadow" src=" w_tt.png">
+        <img class="tl shadow " src=" tl.png">
+        <img class="tr shadow " src=" tr.png">
+        <img class="l shadow " src=" l.png">
+        <img class="r shadow " src=" r.png">
+        <img class="b shadow " src=" w_b.png">
+        <img class="br shadow " src=" br.png">
+        <img class="bl shadow " src=" bl.png">
+        <!-- content area-->
+        <div class="content-area">
+            <!-- column 1 -->
+            <div class="column-1 ui-resizable">
+                <!-- column-1 folders -->
+
+                <div class="item" id="item-1-about">
+                    <img class="item-icon-folder" src=" folder-icon.png">
+                    <img class="item-arrow" src=" arrow.png">
+                    <img class="item-arrow-blue" src=" bluearrow.png">
+                    <img class="item-arrow-grey" src=" greyarrow.png">
+                    <div class="item-text">about</div>
                 </div>
-                <div class="content-text">
-                    Bonez#1319
+                <div class="item" id="item-1-contact">
+                    <img class="item-icon-folder" src=" folder-icon.png">
+                    <img class="item-arrow" src=" arrow.png">
+                    <img class="item-arrow-blue" src=" bluearrow.png">
+                    <img class="item-arrow-grey" src=" greyarrow.png">
+                    <div class="item-text">contact</div>
                 </div>
-                <div class="content-links">
-                    <a href="https://discordapp.com/users/524286895669248021/" target="_blank">
-                        <i class="fab fa-discord"></i>
-                        Discord
-                    </a>
-                    <a href="https://www.youtube.com/hvher" target="_blank">
-                        <i class="fab fa-youtube"></i>
-                        YouTube
-                    </a>
-                    <a href="https://github.com/IamUndetected" target="_blank">
-                        <i class="fab fa-github"></i>
-                        Github
-                    </a>
-                    <a href="https://vk.com/soon" target="_blank">
-                        <i class="fab fa-vk"></i>
-                        VK
-                    </a>
-                    <a href="https://discord.gg/asjGCX75D8" target="_blank">
-                        <i class="fab fa-cat"></i>
-                        Sharky Reselling
-                    </a>
-                    <a href="https://steamcommunity.com/id/uiai" target="_blank">
-                        <i class="fab fa-steam"></i>
-                        Steam
-                    </a>
+                <div class="item" id="item-1-playlist">
+                    <img class="item-icon-folder" src=" folder-icon.png">
+                    <img class="item-arrow" src=" arrow.png">
+                    <img class="item-arrow-blue" src=" bluearrow.png">
+                    <img class="item-arrow-grey" src=" greyarrow.png">
+                    <div class="item-text">playlist</div>
                 </div>
+
+                <!-- column-2 -->
+                <div class="column-2-holder ui-resizable" style="margin-left: 20px; left: 150px;">
+                    <div class="column-2">
+                        <!-- projects folder -->
+
+                        <!-- about folders -->
+                        <div class="folder-about">
+                            <div class="item" id="about">
+                                <img class="item-icon-normal" src="document.png">
+                                <div class="item-text-normal">about me.txt</div>
+                            </div>
+                        </div>
+                        <!-- contact folder -->
+                        <div class="folder-contact">
+                            <div class="item" id="item-2-email">
+                                <img class="item-icon-normal" src="mail.png">
+                                <div class="item-text-normal">guilded</div>
+                                <div id="email-address" style="display:none;">aki</div>
+                            </div>
+
+                            <div class="item" id="item-2-spotify">
+                                <img class="item-icon-folder" src="spotify.png">
+                                <div class="item-text">miraii</div>
+                            </div>
+
+                            <div class="item" id="item-2-youtube">
+                                <img class="item-icon-folder" src="youtube.png">
+
+                                <div class="item-text">/c/hvher</div>
+                            </div>
+
+                            <div class="item" id="item-2-discord">
+                                <img class="item-icon-folder" src="discord.png">
+
+                                <div class="item-text" id="discord-name">Bonez#1319</div>
+                            </div>
+
+                        </div>
+
+                        <div class="folder-playlist">
+                            <div class="item item-link" data-url="https://www.youtube.com/watch?v=1ztoiIzJFdU">
+                                <img class="item-icon-normal" src="youtube.png">
+                                <div class="item-text-normal">WO DU?</div>
+                                <div id="link-youtube" style="display:none;"></div>
+                            </div>
+
+                            <div class="item item-link" data-url="https://www.youtube.com/watch?v=gBlNIFAipZg">
+                                <img class="item-icon-normal" src="youtube.png">
+                                <div class="item-text-normal">Musso - ICH WÜRD GERN (prod. Nikho)</div>
+                                <div id="link-youtube" style="display:none;"></div>
+                            </div>
+
+                            <div class="item item-link" data-url="https://www.youtube.com/watch?v=s_3BI3xr6Uc">
+                                <img class="item-icon-normal" src="youtube.png">
+                                <div class="item-text-normal">Zenit</div>
+                                <div id="link-youtube" style="display:none;"></div>
+                            </div>
+
+                            <div class="item item-link" data-url="https://www.youtube.com/watch?v=gHrXukGTFZg">
+                                <img class="item-icon-normal" src="youtube.png">
+                                <div class="item-text-normal">Дьявол</div>
+                                <div id="link-youtube" style="display:none;"></div>
+                            </div>
+
+                            <div class="item item-link" data-url="https://www.youtube.com/watch?v=o3NEyVxm1bw">
+                                <img class="item-icon-normal" src="youtube.png">
+                                <div class="item-text-normal">Flammen</div>
+                                <div id="link-youtube" style="display:none;"></div>
+                            </div>
+
+                            <div class="item item-link" data-url="https://youtu.be/ZGUBAUJpvnM">
+                                <img class="item-icon-normal" src="youtube.png">
+                                <div class="item-text-normal">Im 20 (Hardstyle)</div>
+                                <div id="link-youtube" style="display:none;"></div>
+                            </div>
+
+                            <div class="item item-link" data-url="https://www.youtube.com/watch?v=HUX8R1D8NnM">
+                                <img class="item-icon-normal" src="youtube.png">
+                                <div class="item-text-normal">Wenn Du weinst (Die Gebrüder Brett Remix)</div>
+                                <div id="link-youtube" style="display:none;"></div>
+                            </div>
+
+                            <div class="item item-link" data-url="https://www.youtube.com/watch?v=0MHoMzeqJH8">
+                                <img class="item-icon-normal" src="youtube.png">
+                                <div class="item-text-normal">Samo104 - Bei Nacht (prod. by Samo104 )</div>
+                                <div id="link-youtube" style="display:none;"></div>
+                            </div>
+
+                            <div class="item item-link" data-url="https://www.youtube.com/watch?v=VmEWlKLbBF4">
+                                <img class="item-icon-normal" src="youtube.png">
+                                <div class="item-text-normal">RIN - Dior 2001 (prod. Alexis Troy)</div>
+                                <div id="link-youtube" style="display:none;"></div>
+                            </div>
+
+                            <div class="item item-link" data-url="https://www.youtube.com/watch?v=Cc_9OoBOw-4">
+                                <img class="item-icon-normal" src="youtube.png">
+                                <div class="item-text-normal"> ClockClock - Sorry (One Take Video)</div>
+                                <div id="link-youtube" style="display:none;"></div>
+                            </div>
+
+                            <div class="item item-link" data-url="https://www.youtube.com/watch?v=t2llZuLVqsw">
+                                <img class="item-icon-normal" src="youtube.png">
+                                <div class="item-text-normal">The Score - Bad Days (Official Audio)</div>
+                                <div id="link-youtube" style="display:none;"></div>
+                            </div>
+
+                            <div class="item item-link" data-url="https://www.youtube.com/watch?v=KYIPbSWHe34">
+                                <img class="item-icon-normal" src="youtube.png">
+                                <div class="item-text-normal">Zeren X Mert X Özmen | Köz</div>
+                                <div id="link-youtube" style="display:none;"></div>
+                            </div>
+
+                            <div class="item item-link" data-url="https://open.spotify.com/playlist/1IHwUIXVC15EGtr3mV7c1p?si=042fd5a6f0644c66">
+                                <img class="item-icon-normal" src="spotify.png">
+                                <div class="item-text-normal">[SPOTIFY] Alle schmeißen keiner fängt</div>
+                                <div id="link-youtube" style="display:none;"></div>
+                            </div>
+
+                            <div class="item item-link" data-url="https://open.spotify.com/playlist/5ePtwDhVFnkLFSFpX6XLbY?si=b4f2ec5dbcee4467">
+                                <img class="item-icon-normal" src="spotify.png">
+                                <div class="item-text-normal">[SPOTIFY] $TrebdSetter$</div>
+                                <div id="link-youtube" style="display:none;"></div>
+                            </div>
+
+                            <div class="item item-link" data-url="https://open.spotify.com/playlist/0xU0p1tc1ChVEjzON5pdIf?si=ee357ceebbd945f0">
+                                <img class="item-icon-normal" src="spotify.png">
+                                <div class="item-text-normal">[SPOTIFY] GYM</div>
+                                <div id="link-youtube" style="display:none;"></div>
+                            </div>
+
+                            <div class="item item-link" data-url="https://open.spotify.com/playlist/5Im7qZcSHehin8WC6jSbFh?si=2127c79120924803">
+                                <img class="item-icon-normal" src="spotify.png">
+                                <div class="item-text-normal">[SPOTIFY] Gern allein gern am wein</div>
+                                <div id="link-youtube" style="display:none;"></div>
+                            </div>
+
+                            <div class="item item-link" data-url="https://open.spotify.com/playlist/211gs9IrQA1r9TYzvSVxHw?si=7487b5b0d33c4e8c">
+                                <img class="item-icon-normal" src="spotify.png">
+                                <div class="item-text-normal">[SPOTIFY] Whats Love? ❤</div>
+                                <div id="link-youtube" style="display:none;"></div>
+                            </div>
+
+                            <div class="item item-link" data-url="https://open.spotify.com/playlist/2RUwiX9KygUbTFErS2X53v?si=c998a247183e4775">
+                                <img class="item-icon-normal" src="spotify.png">
+                                <div class="item-text-normal">🖤 Depressed</div>
+                                <div id="link-youtube" style="display:none;"></div>
+                            </div>
+
+                        </div>
+
+
+
+                    </div>
+                    <div class="ui-resizable-handle ui-resizable-e" style="z-index: 90; cursor: ew-resize;"></div>
+                    <div class="ui-resizable-handle ui-resizable-e" style="z-index: 90; cursor: ew-resize;"></div>
+                </div>
+                <div class="ui-resizable-handle ui-resizable-e" style="z-index: 90; cursor: ew-resize;"></div>
+                <div class="ui-resizable-handle ui-resizable-e" style="z-index: 90; cursor: ew-resize;"></div>
             </div>
+
         </div>
+        <div class="ui-resizable-handle ui-resizable-e" style="z-index: 90; cursor: ew-resize;"></div>
+        <div class="ui-resizable-handle ui-resizable-s" style="z-index: 90; cursor: ns-resize;"></div>
+        <div class="ui-resizable-handle ui-resizable-se ui-icon ui-icon-gripsmall-diagonal-se"
+            style="z-index: 90; cursor: nwse-resize;"></div>
+        <div class="ui-resizable-handle ui-resizable-e" style="z-index: 90; cursor: ew-resize;"></div>
+        <div class="ui-resizable-handle ui-resizable-s" style="z-index: 90; cursor: ns-resize;"></div>
+        <div class="ui-resizable-handle ui-resizable-se ui-icon ui-icon-gripsmall-diagonal-se"
+            style="z-index: 90; cursor: nwse-resize;"></div>
     </div>
-    <script src="./assets/js/main.js"></script>
-    <script src="https://kit.fontawesome.com/b617dc6679.js" crossorigin="anonymous"></script>
-  </body>
+
+
+
+
+
+
+
+    <div class="window ui-draggable ui-resizable" id="window-2">
+        <!-- components -->
+        <!-- handle -->
+        <img class="t handle ui-draggable-handle" src=" bar.png">
+        <!-- buttons -->
+        <div class="buttons">
+            <img class="buttons_hover_no" src=" w_buttons.png">
+            <img class="buttons_hover_yes" src=" w_button2.png">
+            <div class="button-close"></div>
+            <div class="button-minimize"></div>
+            <div class="button-maximize"></div>
+        </div>
+        <!-- header -->
+        <div class="title">about me.txt</div>
+        <img class="title-icon" src="document.png">
+        <!-- border -->
+        <img class="tt shadow" src=" w_tt.png">
+        <img class="tl shadow " src=" tl.png">
+        <img class="tr shadow " src=" tr.png">
+        <img class="l shadow " src=" l.png">
+        <img class="r shadow " src=" r.png">
+        <img class="b shadow " src=" w_b.png">
+        <img class="br shadow " src=" br.png">
+        <img class="bl shadow " src=" bl.png">
+        <!-- content area-->
+        <div class="content-area text-edit">
+            <pre>Hi, iam aki
+    I am interested in C++, C# and low-level programming.
+    Any questions? Contact me!
+        </pre>
+        </div>
+
+        <div class="ui-resizable-handle ui-resizable-e" style="z-index: 90; cursor: ew-resize;"></div>
+        <div class="ui-resizable-handle ui-resizable-s" style="z-index: 90; cursor: ns-resize;"></div>
+        <div class="ui-resizable-handle ui-resizable-se ui-icon ui-icon-gripsmall-diagonal-se"
+            style="z-index: 90; cursor: nwse-resize;"></div>
+        <div class="ui-resizable-handle ui-resizable-e" style="z-index: 90; cursor: ew-resize;"></div>
+        <div class="ui-resizable-handle ui-resizable-s" style="z-index: 90; cursor: ns-resize;"></div>
+        <div class="ui-resizable-handle ui-resizable-se ui-icon ui-icon-gripsmall-diagonal-se"
+            style="z-index: 90; cursor: nwse-resize;"></div>
+    </div>
+
+
+    <div class="window ui-draggable ui-resizable" id="window-3">
+        <!-- components -->
+        <!-- handle -->
+        <img class="t handle ui-draggable-handle" src=" bar.png">
+        <!-- buttons -->
+        <div class="buttons">
+            <img class="buttons_hover_no" src=" w_buttons.png">
+            <img class="buttons_hover_yes" src=" w_button2.png">
+            <div class="button-close"></div>
+            <div class="button-minimize"></div>
+            <div class="button-maximize"></div>
+        </div>
+        <!-- header -->
+        <div class="title-2"></div>
+        <img class="title-icon" src="document.png">
+        <!-- border -->
+        <img class="tt shadow" src=" w_tt.png">
+        <img class="tl shadow " src=" tl.png">
+        <img class="tr shadow " src=" tr.png">
+        <img class="l shadow " src=" l.png">
+        <img class="r shadow " src=" r.png">
+        <img class="b shadow " src=" w_b.png">
+        <img class="br shadow " src=" br.png">
+        <img class="bl shadow " src=" bl.png">
+        <!-- content area-->
+        <div class="content-area text-edit-2">
+
+
+
+
+
+
+        </div>
+
+
+
+
+        <div class="ui-resizable-handle ui-resizable-e" style="z-index: 90; cursor: ew-resize;"></div>
+        <div class="ui-resizable-handle ui-resizable-s" style="z-index: 90; cursor: ns-resize;"></div>
+        <div class="ui-resizable-handle ui-resizable-se ui-icon ui-icon-gripsmall-diagonal-se"
+            style="z-index: 90; cursor: nwse-resize;"></div>
+        <div class="ui-resizable-handle ui-resizable-e" style="z-index: 90; cursor: ew-resize;"></div>
+        <div class="ui-resizable-handle ui-resizable-s" style="z-index: 90; cursor: ns-resize;"></div>
+        <div class="ui-resizable-handle ui-resizable-se ui-icon ui-icon-gripsmall-diagonal-se"
+            style="z-index: 90; cursor: nwse-resize;"></div>
+    </div>
+
+
+    <div class="folder ui-draggable-handle  ui-draggable">
+
+        <img src="folder-icon-2.png" class="folder-opener ui-draggable">
+        <div class="folder-opener-text ui-draggable">aki</div>
+
+    </div>
+
+    <div id="container" class="container">
+        <canvas width="1920" height="484"></canvas>
+    </div>
+
+
+    <script src="js/index.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/items.js"></script>
+
+
+
+
+
+</body>
+
 </html>
