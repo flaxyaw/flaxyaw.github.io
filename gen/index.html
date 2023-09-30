@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/style.css">
+    <title>FlaxYaw Gen</title>
+</head>
+<body>
+    <div class="main_gen">
+        <h1>FlaxYaw Gen</h1>
+        <label for="password-length">Password Length:</label>
+        <input type="number" id="password-length" value="12" min="1">
+        <br>
+        <label for="include-numbers">Include Numbers:</label>
+        <input type="checkbox" id="include-numbers">
+        <br>
+        <label for="include-special-chars">Include Special Characters:</label>
+        <input type="checkbox" id="include-special-chars">
+        <br>
+        <input type="text" id="password" readonly>
+        <button id="generate">Generate Password</button>
+    </div>
+    <script src="assets/logic.js"></script>
+</body>
+</html>
