@@ -1,0 +1,108 @@
+.countdownHolder{
+	width:300px;
+	margin:0 auto;
+	text-align:center;
+	letter-spacing:-3px;
+	border-radius: 5px;
+	padding-top: 5px;
+	font-family: Proxima Nova;
+}
+
+.position{
+	display: inline-block;
+	height: 1.6em;
+	overflow: hidden;
+	position: relative;
+	width: 1.05em;
+}
+
+.digit{
+	position:absolute;
+	display:block;
+	width:1em;
+	border-radius:0.2em;
+	text-align:center;
+	color: #000;
+	letter-spacing:-1px;
+}
+
+.digit.static{
+	box-shadow:1px 1px 1px rgba(4, 4, 4, 0.35);
+}
+
+/**
+ * You can use these classes to hide parts
+ * of the countdown that you don't need.
+ */
+
+.countDays{}
+.countDiv0{}
+.countHours{}
+.countDiv1{}
+.countMinutes{}
+.countDiv2{}
+.countSeconds{}
+
+
+.countDiv{
+	display:inline-block;
+	width:16px;
+	height:1.6em;
+	position:relative;
+}
+
+.countDiv:before,
+.countDiv:after{
+	position:absolute;
+	width:3px;
+	height:3px;
+	background-color:/*#444*/#fff;
+	border-radius:50%;
+	left:50%;
+	margin-left:-3px;
+	top:0.5em;
+	box-shadow:1px 1px 1px rgba(4, 4, 4, 0.5);
+	content:'';
+}
+
+.countDiv:after{
+	top:0.9em;
+}
+
+.time-label {
+	padding: 0 5px 0 5px;
+	/*color: #e0e0e0;*/
+	color: #000;
+	opacity: 0.7;
+	vertical-align: top;
+}
+
+.countup-title {
+	opacity: 0.5;
+	text-transform: uppercase;
+	font-size: 10px;
+	font-family: Proxima Nova,
+	sans-serif;
+	font-weight: bold
+}
+.countup-block {
+	text-align: center;
+	padding-top: 30px;
+}
+
+/*Another countup css*/
+.countup {
+	text-align: center;
+	margin-bottom: 20px;
+	opacity: 0.5;
+	font-family: Proxima Nova;
+	font-weight: bold;
+	text-transform: uppercase;
+	font-size: 12px;
+}
+.timeRefYears, .timeRefDays, .timeRefHours, .timeRefMinutes {
+	font-size: 10px;
+}
+.seconds-countup, .timeRefSeconds, .minutes-countup, .timeRefMinutes {
+	display: none;
+}
