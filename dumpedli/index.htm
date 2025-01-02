@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<head>
+    <title>dump.li - image hosting & markdown pastebin</title>
+    <meta name="description" content="Free service that lets you upload and share images and text online anonymously. You can create albums, pastebin links. No Javascript.">
+    <meta name="keywords" content="free image hosting, image uploader, markdown pastebin, image host, photo sharing, upload pictures">
+    <meta name="language" content="English">
+    <link href="/static/images/favicon.ico" rel="icon" type="image/x-icon">
+    <link href="./static/css/min.css" rel="stylesheet" type="text/css">
+    <link href="./static/css/7aa4ee446dfa8cbb.css" rel="stylesheet" type="text/css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <div align="center">
+        <div style="margin:10px 0;">
+            <a href="/" style="font-size:30px;color:white;font-weight:bold;text-decoration:none;"><span style="color:red;">dump</span>.li</a>
+            <div style="margin:5px 0;"><a href="/contact" style="margin:5px 0;color:grey;text-decoration:none;">contact / abuse</a></div>
+        </div>
+        <a rel="nofollow" target="_blank" href="httpREDACTED" class="banner black"></a>
+        <a rel="nofollow" target="_blank" href="https://REDACTED.cc" class="banner torzon"></a>
+        <a rel="nofollow" target="_blank" href="https://REDACTED.su" class="banner hub"></a>
+        <a rel="nofollow" target="_blank" href="httpREDACTED" class="banner best"></a>
+        <a rel="nofollow" target="_blank" href="https://REDACTED.com/?ref=158" class="banner simply"></a>
+        <a rel="nofollow" target="_blank" href="httpREDACTED" class="banner tribe"></a>
+        <a rel="nofollow" target="_blank" href="httpREDACTED" class="banner shadow"></a>
+        <a rel="nofollow" target="_blank" href="httpREDACTED" class="banner wave"></a>
+        <a rel="nofollow" target="_blank" href="httpREDACTED" class="banner nexus"></a>
+        <a rel="nofollow" target="_blank" href="httpREDACTED" class="banner pygmalion"></a>
+        <a rel="nofollow" target="_blank" href="httpREDACTED/?srcl=8ea87eeb-a773-487b-92d9-98fbedf79e01" class="banner infinity"></a>
+        <a rel="nofollow" target="_blank" href="httpREDACTED" class="banner we"></a>
+        <div style="height:10px;"></div>
+        <div style="margin:-5px 0 10px 0;"><a style="font-size:16px;color:red;font-weight:bold;text-decoration:none;" href="/paste">new: markdown pastebin</a></div>
+        <div class="upload">
+            <a href="/paste" style="display:inline-block;margin:0 0 15px 0;color:red;text-decoration:none;font-size:16px;">switch to pastebin</a>
+            <form action="/upload/" method="POST" enctype="multipart/form-data">
+                <input type="file" name="uploads[]" accept="image/jpeg,image/png,image/gif,image/webp" multiple="" required=""/>
+                <div style="height:15px;"></div>
+                <select id="expires" name="expires" required="">
+                    <option value="0">never</option>
+                    <option value="300">5 minutes</option>
+                    <option value="3600">1 hour</option>
+                    <option value="86400">1 day</option>
+                    <option value="604800">1 week</option>
+                    <option value="2419200">4 weeks</option>
+                    <option value="31536000" selected="">file expiry: 1 year</option>
+                </select>
+                <div style="height:14px;"></div>
+                <div class="checkbox-wrapper">
+                    <label for="album" style="display:inline;">
+                        <input type="checkbox" id="album" class="checkbox" name="album" value="album">
+                        <div style="position:relative;margin-left:35px;margin-top:-22px;cursor:pointer;user-select:none;max-width:95px;">add to album</div>
+                        <div class="album">
+                        <div style="height:10px;"></div>
+                            <input type="text" name="name" style="margin-top:6px;border-radius:10px;text-align:center;" placeholder="name (leave blank to create new album)">
+                            <input type="text" name="key" style="margin-top:6px;border-radius:10px;text-align:center;" placeholder="key (leave blank to create new album)">
+                        </div>
+                    </label>
+                </div>
+                <div style="height:10px;"></div>
+                <div class="checkbox-wrapper">
+                    <label style="display:inline;" for="short" title="image(s) will have a less private short name">
+                        <input type="checkbox" class="checkbox" id="short" name="short" value="short">
+                        <div style="position:relative;margin-left:6px;margin-top:-22px;cursor:pointer;user-select:none;max-width:95px;">short url</div>
+                    </label>
+                </div>
+                <div style="height:10px;"></div>
+                <div class="checkbox-wrapper">
+                    <label style="display:inline;" for="onion" title="image(s) can only be accessed via the .onion and .i2p url">
+                        <input type="checkbox" class="checkbox" id="onion" name="onion" value="onion">
+                        <div style="position:relative;margin-left:22px;margin-top:-22px;cursor:pointer;user-select:none;max-width:95px;">.onion only</div>
+                    </label>
+                </div>
+                <div style="height:14px;"></div>
+                <input style="font-weight:bold;" class="btn" type="submit" value="upload"/>
+            </form>
+            <div style="height:10px;"></div>
+            <div style="color:grey;">6mb max</div>
+            <div style="color:grey;">no illegal images</div>
+        </div>
+        <div style="margin:100px 0 0 0;word-wrap:break-word;font-size:16px;">
+            <a style="display:block;margin:10px;color:white;text-decoration:none;color:red;" href="httpREDACTED</a>
+            <a style="display:block;margin:10px;color:white;text-decoration:none;color:red;" href="http://dumplinf6axdc6zeingl27du2jvdvdpfch34jagvqhtqezvjqzzq.b32.i2p"><b>I2P:</b> dumplinf6axdc6zeingl27du2jvdvdpfch34jagvqhtqezvjqzzq.b32.i2p</a>
+            <span style="display:block;margin:20px;color:white;font-size:14px;"><b style="color:red;">XMR:</b> 82n4e5PDYFL1t9cLF4FVRGS1ahL5WRSo4F3bKu6rDGeQd2FbGSwyXn7arQTTaKNwAE6QhbUWjiHh98B1UAbRoHc8Jkcka28</span>
+        </div>
+    </div>
+    <div id="error" class="overlay">
+        <div class="popup">
+            <div style="font-size:26px;font-weight:bold;margin-bottom:20px;">Error Uploading!</div>
+            <a class="close" href="#x">&times;</a>
+            <div class="content">
+                Check your image(s) are:
+                <ul>
+                    <li>Under 3 megabytes (mb)</li>
+                    <li>One of these types: png, jpg, jpeg, gif, webp</li>
+                    <li>Not corrupted</li>
+                </ul>
+                If all the above is true try again later.
+            </div>
+        </div>
+    </div>
+    <div id="error-key" class="overlay">
+        <div class="popup">
+            <div style="font-size:26px;font-weight:bold;margin-bottom:20px;">Error Uploading!</div>
+            <a class="close" href="#x">&times;</a>
+            <div class="content">Album doesn't exist or key was wrong.<br><br>Enter a valid name and key or leave them blank to create a new album.</div>
+        </div>
+    </div>
+    <div id="error-maximum" class="overlay">
+        <div class="popup">
+            <div style="font-size:26px;font-weight:bold;margin-bottom:20px;">Error Uploading!</div>
+            <a class="close" href="#x">&times;</a>
+            <div class="content">You can only upload a maximum of 20 images at one time.</div>
+        </div>
+    </div>
+</body>

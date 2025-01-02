@@ -1,0 +1,28 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+I, DrugHub admin am alive, free and in control of the platform and
+supporting infrastructure. 
+
+This canary should be updated by Sunday, January 05 2025.
+
+Today is Friday, December 06 2024
+Monero block hash:
+a1bfbbb0a13661c8d7373e0f4c5a3ccfd8520a4ed4a6cfcd929883f87bfc3f49
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEE2gj6w49XMbMfxaHuDfd5IJiDjfUFAmdTbW8ACgkQDfd5IJiD
+jfVqdQ//QGKb5y/1xD1ba4muUGWzlIArZY6PLy/WWFV1knG5yHvRE1g+VinQ9LKU
+j6tWB3LHSNTmlvC/KYbEyVZdrnLfEjgus1YwCiAif7JOSacRS3c7asK4qSFzbbEB
+HLZK7uw9ShM4YqJwIdGpJBfCgart2fQDm4tBf/0uOCdtWu30jU7L/W4giODK1hWg
+ywyvYejqYZMRnyQoXk/5LcJz6sxLwAmpwLRY++K/rwVBEwR/mJRnOqMRa2tmkPKj
+lw13QDge+TH6dwonMnSxtN2yEcZn0fUX+CfA0VE1hZSFomvMhIfPMe/VAgCm6XMj
+xgfjuDx6NYzgy6cAnsVU8jdMjcT3J54cwybBckJsBwNHfVdBxHrxdv7RCKOpQYGZ
+EXrI7qa3mqwj61u4lrP3Y01NOzpBY3WbQ3S3MAdVUOWmwmIypjmtYHSudrByJv5X
+cAhol0P1yQfrJhXenErzHWa0a/+IhqsuU1xKhSG2lwYm3j/oHBO4GS6G4GbAuc+E
+/7u34nH9+rKOrbtdZ8RfnyJVoJM3LfusyXUrxZeAwirr8d/MJqncFGIPVK6UFmZa
+f9gg3shw0O7JBftlSc1oUXZT8FXwZ8sP8NortUD/f6mpQLiT43s3EU0v63BjcqLg
+A367cFkg0NdnCASvlm4XqN1e7/PCPREvZflSnVieldK2tzzj1LI=
+=/R+v
+-----END PGP SIGNATURE-----
