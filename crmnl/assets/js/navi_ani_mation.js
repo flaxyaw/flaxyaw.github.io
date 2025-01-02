@@ -411,7 +411,7 @@ function setspeed() {
 
 }
 
-function spawnniggas() {
+function spawncencored-content() {
     var carname = document.getElementById("gg").value;
     Notify("fa fa-check", "Your " + carname + " has been spawned!", 3000);
     mp.trigger(_event, "const player = mp.players.local; mp.vehicles.new(mp.game.joaat('" + carname + "'), new mp.Vector3(player.position.x, player.position.y, player.position.z), { numberPlate: 'Vetic',color: [[0, 0, 0],[0,0,0]]});");
