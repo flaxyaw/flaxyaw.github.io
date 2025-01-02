@@ -46,7 +46,7 @@ function open(){
 
 //notification stuff
 function Notify(icon, message, time){
-    var notf = document.getElementById("nigger-notify");
+    var notf = document.getElementById("censored-content-notify");
     var icontab = document.getElementById("icon");
     var notmsg = document.getElementById("msg");
     icontab.className = icon;
@@ -58,7 +58,7 @@ function Notify(icon, message, time){
     notf.style.display = "block";
 
     setTimeout(() => {
-        var notf = document.getElementById("nigger-notify")
+        var notf = document.getElementById("censored-content-notify")
         notf.style.opacity = "0";
         notf.style.visibility = "hidden";
     }, time);
