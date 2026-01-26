@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>github email getter (minimal)</title>
+
+
+  <style>
+    body {
+      background: #0d1117;
+      color: #c9d1d9;
+      font-family: monospace;
+      padding: 20px;
+    }
+
+    h1 {
+      margin-bottom: 10px;
+    }
+
+    input, button {
+      background: #161b22;
+      color: #c9d1d9;
+      border: 1px solid #30363d;
+      padding: 10px;
+      font-family: monospace;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .section {
+      margin-top: 30px;
+      padding-top: 20px;
+      border-top: 1px solid #30363d;
+    }
+
+    .output {
+      margin-top: 15px;
+      white-space: pre-wrap;
+      background: #161b22;
+      padding: 15px;
+      border: 1px solid #30363d;
+    }
+
+    .error {
+      color: #ff7b72;
+    }
+
+    .success {
+      color: #3fb950;
+    }
+  </style>
+</head>
+<body>
+
+<h1>github email getter</h1>
+<p>minimal · dark · public github osint</p>
+
+
+<div class="section">
+  <h2>username → email</h2>
+
+  <form id="forwardForm">
+    <input id="usernameInput" placeholder="github username or profile url" />
+    <button type="submit">search</button>
+  </form>
+
+  <div id="forwardOutput" class="output">waiting…</div>
+</div>
+
+
+<div class="section">
+  <h2>email → accounts</h2>
+
+  <form id="reverseForm">
+    <input id="emailInput" placeholder="email address" />
+    <button type="submit">search</button>
+  </form>
+
+  <div id="reverseOutput" class="output">waiting…</div>
+</div>
+
+<script>
+
+
+const GITHUB_API = "https://api.github.com";
+const RESULTS_PER_PAGE = 100;
+
+function isEmail(value) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+}
+
+
+function isNoReply(email) {
+  return email.endsWith("@users.noreply.github.com");
+}
+
+function extractUsername(input) {
+  if (input.includes("github.com")) {
+    return input.split("github.com/")[1].split("/")[0];
+  }
+  return input;
+}
+
+
+function setOutput(el, text, type = "") {
+  el.className = "output " + type;
+  el.textContent = text;
+}
+
+  
+document.getElementById("forwardForm").addEventListener("submit", async e => {
+  e.preventDefault();
+
+  const output = document.getElementById("forwardOutput");
+  const rawInput = document.getElementById("usernameInput").value.trim();
+
+  if (!rawInput) {
+    return setOutput(output, "missing username", "error");
+  }
+
+  const username = extractUsername(rawInput);
+  setOutput(output, "searching…");
+
+  try {
+    /* ---- Fetch user profile ---- */
+    const userRes = await fetch(`${GITHUB_API}/users/${username}`);
+    if (!userRes.ok) throw userRes;
+
+    const user = await userRes.json();
+    
+    if (user.email && isEmail(user.email) && !isNoReply(user.email)) {
+      return setOutput(
+        output,
+        `email found (profile):\n${user.email}`,
+        "success"
+      );
+    }
+
+    const repoRes = await fetch(
+      `${GITHUB_API}/users/${username}/repos?per_page=${RESULTS_PER_PAGE}`
+    );
+
+    if (!repoRes.ok) throw repoRes;
+
+    const repos = await repoRes.json();
+
+    for (const repo of repos) {
+      const commitsUrl = repo.commits_url.replace("{/sha}", "") + "?per_page=10";
+      const commitsRes = await fetch(commitsUrl);
+      if (!commitsRes.ok) continue;
+
+      const commits = await commitsRes.json();
+
+      for (const c of commits) {
+        const email = c.commit?.author?.email;
+        const author = c.author?.login;
+
+        if (
+          author?.toLowerCase() === username.toLowerCase() &&
+          isEmail(email) &&
+          !isNoReply(email)
+        ) {
+          return setOutput(
+            output,
+            `email found (commit):\n${email}\nrepo: ${repo.name}`,
+            "success"
+          );
+        }
+      }
+    }
+
+    setOutput(output, "no public email found", "error");
+
+  } catch (err) {
+    if (err.status === 404) {
+      setOutput(output, "user not found", "error");
+    } else if (err.status === 403) {
+      setOutput(output, "github rate limit exceeded", "error");
+    } else {
+      setOutput(output, "unexpected error", "error");
+    }
+  }
+});
+
+
+document.getElementById("reverseForm").addEventListener("submit", async e => {
+  e.preventDefault();
+
+  const output = document.getElementById("reverseOutput");
+  const email = document.getElementById("emailInput").value.trim().toLowerCase();
+
+  if (!isEmail(email)) {
+    return setOutput(output, "invalid email", "error");
+  }
+
+  if (isNoReply(email)) {
+    return setOutput(output, "noreply emails cannot be traced", "error");
+  }
+
+  setOutput(output, "searching…");
+
+  try {
+    const res = await fetch(
+      `${GITHUB_API}/search/commits?q=author-email:${encodeURIComponent(email)}`
+    );
+
+    if (!res.ok) throw res;
+
+    const data = await res.json();
+    const users = new Set();
+
+    data.items?.forEach(item => {
+      if (item.author?.login) {
+        users.add(item.author.login);
+      }
+    });
+
+    if (users.size === 0) {
+      return setOutput(output, "no accounts found", "error");
+    }
+
+    setOutput(
+      output,
+      `accounts found:\n\n${[...users].join("\n")}`,
+      "success"
+    );
+
+  } catch (err) {
+    if (err.status === 403) {
+      setOutput(output, "github rate limit exceeded", "error");
+    } else {
+      setOutput(output, "unexpected error", "error");
+    }
+  }
+});
+</script>
+
+</body>
+</html>
