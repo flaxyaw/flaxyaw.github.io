@@ -167,7 +167,7 @@ textarea{resize:none;height:54px}
 .qm-item{background:var(--card2);border:1px solid var(--border2);padding:9px 14px;font-size:11px;letter-spacing:.08em;cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:8px}
 .qm-item:active{background:var(--border2)}
 
-.due-banner{position:fixed;bottom:calc(var(--safe-bot)+var(--tab-h)+10px);left:12px;right:12px;max-width:576px;margin:0 auto;z-index:48;background:var(--card2);border:1px solid var(--border2);padding:12px 14px}
+.due-banner{position:fixed;bottom:calc(var(--safe-bot)+var(--tab-h)+16px);left:12px;right:12px;max-width:576px;margin:0 auto;z-index:51;background:var(--card2);border:1px solid var(--border2);padding:12px 14px;box-shadow:0 -4px 24px rgba(0,0,0,.5)}
 .due-acts{display:flex;gap:8px;margin-top:10px}
 .due-acts .btn-p{margin-top:0;flex:1;padding:9px}
 .due-acts .btn-g{margin-top:0;flex:1;padding:8px}
@@ -373,14 +373,16 @@ textarea{resize:none;height:54px}
 <div class="overlay" id="rcOv">
 <div class="sheet">
   <div class="sh-hdr"><span class="sh-title" id="rcTitle">New Template</span><button class="sh-x" onclick="closeRcOv()">✕</button></div>
-  <div class="seg" style="grid-template-columns:1fr 1fr">
+  <div class="seg" style="grid-template-columns:1fr 1fr 1fr">
     <button class="seg-btn active" id="rExpBtn" onclick="setRType('expense')">Expense</button>
     <button class="seg-btn" id="rIncBtn" onclick="setRType('income')">Income</button>
+    <button class="seg-btn" id="rTrBtn" onclick="setRType('transfer')">Transfer</button>
   </div>
-  <div class="fg"><label class="fl">Name</label><input type="text" id="rcName" placeholder="Netflix, Rent, Salary…" autocomplete="off"></div>
+  <div class="fg"><label class="fl">Name</label><input type="text" id="rcName" placeholder="Netflix, Rent, Investments…" autocomplete="off"></div>
   <div class="fg"><label class="fl">Amount</label><div class="pfx-wrap"><span class="pfx">€</span><input type="number" id="rcAmt" placeholder="0.00" step="0.01" min="0" inputmode="decimal"></div></div>
-  <div class="fg"><label class="fl">Account</label><select id="rcAcc"></select></div>
-  <div class="fg"><label class="fl">Category</label><select id="rcCat"></select></div>
+  <div class="fg"><label class="fl" id="rcAccLbl">From Account</label><select id="rcAcc"></select></div>
+  <div class="fg" id="rcToWrap" style="display:none"><label class="fl">To Account</label><select id="rcAccTo"></select></div>
+  <div class="fg" id="rcCatWrap"><label class="fl">Category</label><select id="rcCat"></select></div>
   <div class="fg"><label class="fl">Frequency</label>
     <select id="rcFreq"><option value="monthly">Monthly</option><option value="yearly">Yearly</option></select>
   </div>
@@ -688,8 +690,14 @@ function postNow(id){
   const r=recs.find(x=>x.id===id);if(!r)return;
   const n=new Date();
   const ds=n.getFullYear()+'-'+String(n.getMonth()+1).padStart(2,'0')+'-'+String(Math.min(r.day||1,28)).padStart(2,'0');
-  txs.push({id:uid(),amount:r.amount,name:r.name,category:r.category,date:ds,emoji:r.emoji,type:r.type,account:r.account,notes:'',recurId:r.id});
-  saveT();render();toast(r.name+' posted');
+  if(r.type==='transfer'){
+    const pair=uid();
+    txs.push({id:uid(),amount:r.amount,name:'Transfer → '+aN(r.accountTo),category:'Transfer',date:ds,emoji:'🔄',type:'transfer_out',account:r.account,notes:'',recurId:r.id,pair});
+    txs.push({id:uid(),amount:r.amount,name:'Transfer ← '+aN(r.account),category:'Transfer',date:ds,emoji:'🔄',type:'transfer_in',account:r.accountTo,notes:'',recurId:r.id,pair});
+  } else {
+    txs.push({id:uid(),amount:r.amount,name:r.name,category:r.category,date:ds,emoji:r.emoji,type:r.type,account:r.account,notes:'',recurId:r.id});
+  }
+  saveT();render();renderAccs();toast(r.name+' posted');
 }
 function getDue(){
   const n=new Date(),y=n.getFullYear(),m=n.getMonth(),key=mkey(y,m);
@@ -716,7 +724,14 @@ function applyDue(){
   const n=new Date(),y=n.getFullYear(),m=n.getMonth();
   getDue().forEach(r=>{
     const d=String(Math.min(r.day||1,28)).padStart(2,'0');
-    txs.push({id:uid(),amount:r.amount,name:r.name,category:r.category,date:y+'-'+String(m+1).padStart(2,'0')+'-'+d,emoji:r.emoji,type:r.type,account:r.account,notes:'',recurId:r.id});
+    const ds=y+'-'+String(m+1).padStart(2,'0')+'-'+d;
+    if(r.type==='transfer'){
+      const pair=uid();
+      txs.push({id:uid(),amount:r.amount,name:'Transfer → '+aN(r.accountTo),category:'Transfer',date:ds,emoji:'🔄',type:'transfer_out',account:r.account,notes:'',recurId:r.id,pair});
+      txs.push({id:uid(),amount:r.amount,name:'Transfer ← '+aN(r.account),category:'Transfer',date:ds,emoji:'🔄',type:'transfer_in',account:r.accountTo,notes:'',recurId:r.id,pair});
+    } else {
+      txs.push({id:uid(),amount:r.amount,name:r.name,category:r.category,date:ds,emoji:r.emoji,type:r.type,account:r.account,notes:'',recurId:r.id});
+    }
   });
   saveT();dismissDue();render();toast('Recurring applied');
 }
@@ -897,27 +912,39 @@ function openEditRc(id){
   document.getElementById('rcName').value=r.name;document.getElementById('rcAmt').value=r.amount;
   document.getElementById('rcDay').value=r.day||1;document.getElementById('rcFreq').value=r.freq;
   document.getElementById('rcDelBtn').style.display='';
-  setRType(r.type,r.category,r.emoji);fillSel('rcAcc',r.account);document.getElementById('rcOv').classList.add('open');
+  setRType(r.type,r.category,r.emoji);fillSel('rcAcc',r.account);if(r.accountTo)document.getElementById('rcAccTo').value=r.accountTo;document.getElementById('rcOv').classList.add('open');
 }
 function closeRcOv(){document.getElementById('rcOv').classList.remove('open')}
 function setRType(type,precat,preemo){
   cRType=type;
   document.getElementById('rExpBtn').classList.toggle('active',type==='expense');
   document.getElementById('rIncBtn').classList.toggle('active',type==='income');
-  const cats=type==='expense'?ECATS:ICATS;
-  const cs=document.getElementById('rcCat');cs.innerHTML=cats.map(c=>'<option>'+c+'</option>').join('');
-  if(precat&&cats.includes(precat))cs.value=precat;
-  const emos=type==='expense'?EEMO:IEMO;
+  document.getElementById('rTrBtn').classList.toggle('active',type==='transfer');
+  const isT=type==='transfer';
+  document.getElementById('rcToWrap').style.display=isT?'':'none';
+  document.getElementById('rcCatWrap').style.display=isT?'none':'';
+  document.getElementById('rcAccLbl').textContent=isT?'From Account':'Account';
+  if(isT){fillSel('rcAccTo');}
+  else{
+    const cats=type==='expense'?ECATS:ICATS;
+    const cs=document.getElementById('rcCat');cs.innerHTML=cats.map(c=>'<option>'+c+'</option>').join('');
+    if(precat&&cats.includes(precat))cs.value=precat;
+  }
+  const emos=type==='income'?IEMO:EEMO;
   sREmo=preemo||emos[0];buildGrid('rcEmoGrid',emos,'rc');
 }
 function saveRc(){
   const name=document.getElementById('rcName').value.trim();
   const amount=parseFloat(document.getElementById('rcAmt').value);
-  const cat=document.getElementById('rcCat').value,freq=document.getElementById('rcFreq').value;
-  const day=parseInt(document.getElementById('rcDay').value)||1,account=document.getElementById('rcAcc').value;
+  const freq=document.getElementById('rcFreq').value;
+  const day=parseInt(document.getElementById('rcDay').value)||1;
+  const account=document.getElementById('rcAcc').value;
+  const accountTo=cRType==='transfer'?document.getElementById('rcAccTo').value:null;
+  const cat=cRType==='transfer'?'Transfer':document.getElementById('rcCat').value;
   if(!name||!amount||amount<=0){alert('Fill in name and amount.');return;}
-  if(eRcId){const i=recs.findIndex(r=>r.id===eRcId);recs[i]={...recs[i],name,amount,category:cat,freq,day,emoji:sREmo,type:cRType,account};}
-  else recs.push({id:uid(),name,amount,category:cat,freq,day,emoji:sREmo,type:cRType,account});
+  if(cRType==='transfer'&&account===accountTo){alert('Choose different accounts.');return;}
+  if(eRcId){const i=recs.findIndex(r=>r.id===eRcId);recs[i]={...recs[i],name,amount,category:cat,freq,day,emoji:sREmo,type:cRType,account,accountTo};}
+  else recs.push({id:uid(),name,amount,category:cat,freq,day,emoji:sREmo,type:cRType,account,accountTo});
   saveR();closeRcOv();renderRecs();toast('Saved');
 }
 function delRc(){
