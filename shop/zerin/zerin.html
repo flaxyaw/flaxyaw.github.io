@@ -1,1031 +1,1713 @@
-/*claude wouldnt crawl and copy zerin for me so thats the best it could come up with.*/
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#080808">
-  <title>Budget — Personal finance. Full control.</title>
-  <meta name="description"
-    content="A no-subscription personal budget app. Tracks income, expenses, accounts, recurring items and budgets. Runs offline on any device.">
-  <link
-    href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600;700&display=swap"
-    rel="stylesheet">
-  <style>
-    :root {
-      --bg: #080808;
-      --bg2: #0e0e0e;
-      --card: #111111;
-      --card2: #161616;
-      --border: #1f1f1f;
-      --border2: #2a2a2a;
-      --border3: #363636;
-      --text: #f0f0f0;
-      --text2: #808080;
-      --muted: #404040;
-      --accent: #00c896;
-      --accent-dim: rgba(0, 200, 150, .10);
-      --accent-border: rgba(0, 200, 150, .22);
-      --red: #ff4444;
-      --green: #00c896;
-      --f: 'DM Sans', sans-serif;
-      --fm: 'DM Mono', monospace;
-    }
-
-    *,
-    *::before,
-    *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0
-    }
-
-    html {
-      scroll-behavior: smooth
-    }
-
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: var(--f);
-      font-size: 15px;
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
-      overflow-x: hidden
-    }
-
-    a {
-      color: var(--accent);
-      text-decoration: none
-    }
-
-    /* Nav */
-    nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 100;
-      border-bottom: 1px solid var(--border);
-      background: rgba(8, 8, 8, .92);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px)
-    }
-
-    .nav-inner {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 24px;
-      height: 56px;
-      display: flex;
-      align-items: center;
-      gap: 32px
-    }
-
-    .nav-logo {
-      font-family: var(--f);
-      font-size: 14px;
-      font-weight: 700;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      color: var(--text)
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 28px;
-      margin-left: auto
-    }
-
-    .nav-links a {
-      font-size: 13px;
-      color: var(--text2);
-      transition: color .1s
-    }
-
-    .nav-links a:hover {
-      color: var(--text)
-    }
-
-    .nav-cta {
-      margin-left: 16px;
-      background: var(--text);
-      color: var(--bg);
-      border: none;
-      padding: 8px 18px;
-      font-family: var(--f);
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      white-space: nowrap;
-      transition: opacity .1s;
-      text-decoration: none;
-      display: inline-block
-    }
-
-    .nav-cta:hover {
-      opacity: .88;
-      color: var(--bg)
-    }
-
-    /* Layout */
-    .container {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 24px
-    }
-
-    .container-sm {
-      max-width: 720px;
-      margin: 0 auto;
-      padding: 0 24px
-    }
-
-    section {
-      padding: 96px 0;
-      border-bottom: 1px solid var(--border)
-    }
-
-    section:last-child {
-      border-bottom: none
-    }
-
-    .lbl {
-      font-family: var(--fm);
-      font-size: 10px;
-      font-weight: 400;
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      color: var(--text2);
-      margin-bottom: 14px
-    }
-
-    .section-h {
-      font-size: clamp(28px, 4vw, 44px);
-      font-weight: 700;
-      letter-spacing: -.02em
-    }
-
-    /* Hero */
-    #hero {
-      padding: 160px 0 96px;
-      border-bottom: 1px solid var(--border)
-    }
-
-    .hero-status {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-family: var(--fm);
-      font-size: 11px;
-      color: var(--text2);
-      margin-bottom: 32px
-    }
-
-    .hero-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--accent);
-      flex-shrink: 0;
-      box-shadow: 0 0 8px var(--accent);
-      animation: blink 2.4s ease-in-out infinite
-    }
-
-    @keyframes blink {
-
-      0%,
-      100% {
-        opacity: 1
-      }
-
-      50% {
-        opacity: .35
-      }
-    }
-
-    .hero-h1 {
-      font-size: clamp(44px, 7.5vw, 86px);
-      font-weight: 700;
-      line-height: 1.03;
-      letter-spacing: -.03em;
-      margin-bottom: 6px
-    }
-
-    .hero-h1-muted {
-      font-size: clamp(44px, 7.5vw, 86px);
-      font-weight: 700;
-      line-height: 1.03;
-      letter-spacing: -.03em;
-      color: var(--muted);
-      margin-bottom: 28px
-    }
-
-    .hero-desc {
-      font-size: 16px;
-      color: var(--text2);
-      max-width: 460px;
-      line-height: 1.7;
-      margin-bottom: 40px
-    }
-
-    .hero-btns {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap
-    }
-
-    .btn-p {
-      background: var(--text);
-      color: var(--bg);
-      border: none;
-      padding: 13px 28px;
-      font-family: var(--f);
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: opacity .1s;
-      display: inline-block;
-      text-decoration: none
-    }
-
-    .btn-p:hover {
-      opacity: .88;
-      color: var(--bg)
-    }
-
-    .btn-o {
-      background: none;
-      color: var(--text2);
-      border: 1px solid var(--border2);
-      padding: 13px 28px;
-      font-family: var(--f);
-      font-size: 14px;
-      cursor: pointer;
-      transition: border-color .1s, color .1s;
-      display: inline-block;
-      text-decoration: none
-    }
-
-    .btn-o:hover {
-      border-color: var(--border3);
-      color: var(--text)
-    }
-
-    /* Stat strip */
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      border: 1px solid var(--border);
-      margin-top: 72px
-    }
-
-    .stat {
-      padding: 24px 28px;
-      border-right: 1px solid var(--border)
-    }
-
-    .stat:last-child {
-      border-right: none
-    }
-
-    .stat-n {
-      font-size: 32px;
-      font-weight: 700;
-      letter-spacing: -.02em;
-      margin-bottom: 4px
-    }
-
-    .stat-n .ac {
-      color: var(--accent)
-    }
-
-    .stat-d {
-      font-family: var(--fm);
-      font-size: 11px;
-      color: var(--text2);
-      letter-spacing: .04em
-    }
-
-    /* How it works */
-    .how-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 64px;
-      align-items: start;
-      margin-top: 48px
-    }
-
-    .how-body p {
-      color: var(--text2);
-      line-height: 1.75;
-      margin-bottom: 16px;
-      font-size: 14px
-    }
-
-    .flow-table {
-      background: var(--card);
-      border: 1px solid var(--border2)
-    }
-
-    .flow-hdr {
-      padding: 10px 18px;
-      border-bottom: 1px solid var(--border);
-      font-family: var(--fm);
-      font-size: 10px;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      color: var(--muted)
-    }
-
-    .flow-row {
-      display: flex;
-      align-items: baseline;
-      padding: 12px 18px;
-      border-bottom: 1px solid var(--border);
-      font-family: var(--fm);
-      font-size: 13px
-    }
-
-    .flow-row:last-child {
-      border-bottom: none
-    }
-
-    .flow-key {
-      color: var(--text2);
-      width: 110px;
-      flex-shrink: 0
-    }
-
-    .flow-arr {
-      color: var(--muted);
-      padding: 0 12px;
-      font-size: 11px
-    }
-
-    .flow-val {
-      color: var(--text)
-    }
-
-    .flow-val.ac {
-      color: var(--accent)
-    }
-
-    /* Features */
-    .feat-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      border-top: 1px solid var(--border);
-      border-left: 1px solid var(--border);
-      margin-top: 48px
-    }
-
-    .feat {
-      padding: 28px 24px;
-      border-right: 1px solid var(--border);
-      border-bottom: 1px solid var(--border)
-    }
-
-    .feat-ico {
-      font-size: 22px;
-      margin-bottom: 14px
-    }
-
-    .feat-name {
-      font-size: 14px;
-      font-weight: 600;
-      margin-bottom: 8px
-    }
-
-    .feat-desc {
-      font-size: 13px;
-      color: var(--text2);
-      line-height: 1.6
-    }
-
-    /* Full list */
-    .list-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      border: 1px solid var(--border);
-      margin-top: 48px
-    }
-
-    .list-col {
-      padding: 28px 24px;
-      border-right: 1px solid var(--border)
-    }
-
-    .list-col:last-child {
-      border-right: none
-    }
-
-    .list-title {
-      font-size: 13px;
-      font-weight: 600;
-      margin-bottom: 16px
-    }
-
-    .list-items {
-      list-style: none
-    }
-
-    .list-items li {
-      font-family: var(--fm);
-      font-size: 12px;
-      color: var(--text2);
-      padding: 5px 0;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      gap: 10px
-    }
-
-    .list-items li:last-child {
-      border-bottom: none
-    }
-
-    .list-items li::before {
-      content: '·';
-      color: var(--muted);
-      flex-shrink: 0
-    }
-
-    /* Compatibility */
-    .compat-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 48px;
-      align-items: start;
-      margin-top: 48px
-    }
-
-    .compat-body p {
-      color: var(--text2);
-      line-height: 1.75;
-      margin-bottom: 12px;
-      font-size: 14px
-    }
-
-    .compat-tbl {
-      background: var(--card);
-      border: 1px solid var(--border2)
-    }
-
-    .compat-hdr {
-      padding: 10px 18px;
-      border-bottom: 1px solid var(--border);
-      font-family: var(--fm);
-      font-size: 10px;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      color: var(--muted);
-      display: flex;
-      justify-content: space-between;
-      align-items: center
-    }
-
-    .compat-score {
-      font-family: var(--fm);
-      font-size: 13px;
-      color: var(--accent)
-    }
-
-    .compat-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10px 18px;
-      border-bottom: 1px solid var(--border);
-      font-family: var(--fm);
-      font-size: 12px
-    }
-
-    .compat-row:last-child {
-      border-bottom: none
-    }
-
-    .compat-name {
-      color: var(--text2)
-    }
-
-    .compat-chk {
-      color: var(--accent)
-    }
-
-    /* Pricing */
-    .price-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1px;
-      background: var(--border);
-      border: 1px solid var(--border);
-      margin-top: 48px
-    }
-
-    .price-card {
-      background: var(--card);
-      padding: 36px 32px;
-      position: relative
-    }
-
-    .price-card.feat-card {
-      background: var(--card2)
-    }
-
-    .price-tag {
-      position: absolute;
-      top: 24px;
-      right: 24px;
-      font-family: var(--fm);
-      font-size: 9px;
-      letter-spacing: .10em;
-      text-transform: uppercase;
-      padding: 3px 8px;
-      border: 1px solid var(--accent-border);
-      background: var(--accent-dim);
-      color: var(--accent)
-    }
-
-    .price-tier {
-      font-family: var(--fm);
-      font-size: 10px;
-      letter-spacing: .16em;
-      text-transform: uppercase;
-      color: var(--text2);
-      margin-bottom: 16px
-    }
-
-    .price-amt {
-      font-size: 52px;
-      font-weight: 700;
-      letter-spacing: -.03em;
-      line-height: 1;
-      margin-bottom: 4px
-    }
-
-    .price-note {
-      font-family: var(--fm);
-      font-size: 11px;
-      color: var(--text2);
-      margin-bottom: 28px
-    }
-
-    .price-list {
-      list-style: none;
-      margin-bottom: 32px
-    }
-
-    .price-list li {
-      font-family: var(--fm);
-      font-size: 12px;
-      color: var(--text2);
-      padding: 7px 0;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      gap: 10px
-    }
-
-    .price-list li:last-child {
-      border-bottom: none
-    }
-
-    .price-list li::before {
-      content: '·';
-      color: var(--muted)
-    }
-
-    .price-btn {
-      width: 100%;
-      background: var(--text);
-      color: var(--bg);
-      border: none;
-      padding: 13px;
-      font-family: var(--f);
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: opacity .1s;
-      display: block;
-      text-align: center;
-      text-decoration: none
-    }
-
-    .price-btn:hover {
-      opacity: .88;
-      color: var(--bg)
-    }
-
-    .price-btn.ghost {
-      background: none;
-      color: var(--text2);
-      border: 1px solid var(--border2);
-      transition: border-color .1s, color .1s
-    }
-
-    .price-btn.ghost:hover {
-      border-color: var(--border3);
-      color: var(--text)
-    }
-
-    .price-foot {
-      font-family: var(--fm);
-      font-size: 10px;
-      color: var(--muted);
-      text-align: center;
-      margin-top: 24px;
-      letter-spacing: .04em
-    }
-
-    /* Footer */
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 32px 0
-    }
-
-    .foot-inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between
-    }
-
-    .foot-logo {
-      font-family: var(--f);
-      font-size: 13px;
-      font-weight: 700;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      color: var(--text2)
-    }
-
-    .foot-links {
-      display: flex;
-      gap: 24px
-    }
-
-    .foot-links a {
-      font-family: var(--fm);
-      font-size: 11px;
-      color: var(--muted);
-      transition: color .1s;
-      letter-spacing: .04em
-    }
-
-    .foot-links a:hover {
-      color: var(--text2)
-    }
-
-    .foot-copy {
-      font-family: var(--fm);
-      font-size: 11px;
-      color: var(--muted);
-      letter-spacing: .04em
-    }
-
-    /* Responsive */
-    @media(max-width:768px) {
-      .nav-links {
-        display: none
-      }
-
-      .stats {
-        grid-template-columns: 1fr 1fr
-      }
-
-      .stat:nth-child(2) {
-        border-right: none
-      }
-
-      .stat:nth-child(3) {
-        border-top: 1px solid var(--border)
-      }
-
-      .stat:nth-child(4) {
-        border-top: 1px solid var(--border);
-        border-right: none
-      }
-
-      .how-grid {
-        grid-template-columns: 1fr;
-        gap: 32px
-      }
-
-      .feat-grid {
-        grid-template-columns: 1fr 1fr
-      }
-
-      .list-grid {
-        grid-template-columns: 1fr
-      }
-
-      .list-col {
-        border-right: none;
-        border-bottom: 1px solid var(--border)
-      }
-
-      .list-col:last-child {
-        border-bottom: none
-      }
-
-      .compat-grid {
-        grid-template-columns: 1fr;
-        gap: 32px
-      }
-
-      .price-grid {
-        grid-template-columns: 1fr;
-        gap: 1px
-      }
-
-      .foot-inner {
-        flex-direction: column;
-        gap: 16px;
-        text-align: center
-      }
-
-      .foot-links {
-        flex-wrap: wrap;
-        justify-content: center
-      }
-    }
-
-    @media(max-width:480px) {
-      #hero {
-        padding: 120px 0 64px
-      }
-
-      .hero-btns {
-        flex-direction: column
-      }
-
-      .btn-p,
-      .btn-o {
-        width: 100%;
-        text-align: center
-      }
-
-      .feat-grid {
-        grid-template-columns: 1fr
-      }
-
-      section {
-        padding: 64px 0
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#080808">
+    <title>Budget — Personal finance. Full control.</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg: #080808;
+            --bg2: #0e0e0e;
+            --card: #111111;
+            --card2: #161616;
+            --border: #1f1f1f;
+            --border2: #2a2a2a;
+            --border3: #363636;
+            --text: #f0f0f0;
+            --text2: #808080;
+            --muted: #404040;
+            --accent: #00c896;
+            --accent-dim: rgba(0, 200, 150, .10);
+            --accent-border: rgba(0, 200, 150, .22);
+            --f: 'DM Sans', sans-serif;
+            --fm: 'DM Mono', monospace;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        html {
+            scroll-behavior: smooth
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--f);
+            font-size: 15px;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden
+        }
+
+        a {
+            color: var(--accent);
+            text-decoration: none
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            border-bottom: 1px solid var(--border);
+            background: rgba(8, 8, 8, .92);
+            backdrop-filter: blur(12px)
+        }
+
+        .nav-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            gap: 32px
+        }
+
+        .nav-logo {
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: .14em;
+            text-transform: uppercase;
+            color: var(--text)
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 28px;
+            margin-left: auto
+        }
+
+        .nav-links a {
+            font-size: 13px;
+            color: var(--text2);
+            transition: color .1s
+        }
+
+        .nav-links a:hover {
+            color: var(--text)
+        }
+
+        .nav-cta {
+            margin-left: 16px;
+            background: var(--text);
+            color: var(--bg);
+            border: none;
+            padding: 8px 18px;
+            font-family: var(--f);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity .1s;
+            text-decoration: none;
+            display: inline-block
+        }
+
+        .nav-cta:hover {
+            opacity: .88;
+            color: var(--bg)
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px
+        }
+
+        .container-sm {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 0 24px
+        }
+
+        section {
+            padding: 96px 0;
+            border-bottom: 1px solid var(--border)
+        }
+
+        section:last-child {
+            border-bottom: none
+        }
+
+        .lbl {
+            font-family: var(--fm);
+            font-size: 10px;
+            letter-spacing: .18em;
+            text-transform: uppercase;
+            color: var(--text2);
+            margin-bottom: 14px
+        }
+
+        .section-h {
+            font-size: clamp(28px, 4vw, 44px);
+            font-weight: 700;
+            letter-spacing: -.02em
+        }
+
+        #hero {
+            padding: 160px 0 96px
+        }
+
+        .hero-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: var(--fm);
+            font-size: 11px;
+            color: var(--text2);
+            margin-bottom: 32px
+        }
+
+        .hero-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent);
+            box-shadow: 0 0 8px var(--accent);
+            animation: blink 2.4s ease-in-out infinite
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1
+            }
+
+            50% {
+                opacity: .35
+            }
+        }
+
+        .hero-h1 {
+            font-size: clamp(44px, 7.5vw, 86px);
+            font-weight: 700;
+            line-height: 1.03;
+            letter-spacing: -.03em;
+            margin-bottom: 6px
+        }
+
+        .hero-h1-muted {
+            font-size: clamp(44px, 7.5vw, 86px);
+            font-weight: 700;
+            line-height: 1.03;
+            letter-spacing: -.03em;
+            color: var(--muted);
+            margin-bottom: 28px
+        }
+
+        .hero-desc {
+            font-size: 16px;
+            color: var(--text2);
+            max-width: 460px;
+            line-height: 1.7;
+            margin-bottom: 40px
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap
+        }
+
+        .btn-p {
+            background: var(--text);
+            color: var(--bg);
+            border: none;
+            padding: 13px 28px;
+            font-family: var(--f);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity .1s;
+            display: inline-block;
+            text-decoration: none
+        }
+
+        .btn-p:hover {
+            opacity: .88;
+            color: var(--bg)
+        }
+
+        .btn-o {
+            background: none;
+            color: var(--text2);
+            border: 1px solid var(--border2);
+            padding: 13px 28px;
+            font-family: var(--f);
+            font-size: 14px;
+            cursor: pointer;
+            transition: border-color .1s, color .1s;
+            display: inline-block;
+            text-decoration: none
+        }
+
+        .btn-o:hover {
+            border-color: var(--border3);
+            color: var(--text)
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            border: 1px solid var(--border);
+            margin-top: 72px
+        }
+
+        .stat {
+            padding: 24px 28px;
+            border-right: 1px solid var(--border)
+        }
+
+        .stat:last-child {
+            border-right: none
+        }
+
+        .stat-n {
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: -.02em;
+            margin-bottom: 4px
+        }
+
+        .stat-n .ac {
+            color: var(--accent)
+        }
+
+        .stat-d {
+            font-family: var(--fm);
+            font-size: 11px;
+            color: var(--text2);
+            letter-spacing: .04em
+        }
+
+        /* HOW */
+        .how-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 64px;
+            align-items: start;
+            margin-top: 48px
+        }
+
+        .how-body p {
+            color: var(--text2);
+            line-height: 1.75;
+            margin-bottom: 16px;
+            font-size: 14px
+        }
+
+        .flow-table {
+            background: var(--card);
+            border: 1px solid var(--border2)
+        }
+
+        .flow-hdr {
+            padding: 10px 18px;
+            border-bottom: 1px solid var(--border);
+            font-family: var(--fm);
+            font-size: 10px;
+            letter-spacing: .14em;
+            text-transform: uppercase;
+            color: var(--muted)
+        }
+
+        .flow-row {
+            display: flex;
+            align-items: baseline;
+            padding: 12px 18px;
+            border-bottom: 1px solid var(--border);
+            font-family: var(--fm);
+            font-size: 13px
+        }
+
+        .flow-row:last-child {
+            border-bottom: none
+        }
+
+        .flow-key {
+            color: var(--text2);
+            width: 110px;
+            flex-shrink: 0
+        }
+
+        .flow-arr {
+            color: var(--muted);
+            padding: 0 12px;
+            font-size: 11px
+        }
+
+        .flow-val {
+            color: var(--text)
+        }
+
+        .flow-val.ac {
+            color: var(--accent)
+        }
+
+        /* ── FEATURES ── */
+        #features {
+            padding: 96px 0
+        }
+
+        .feat-hero {
+            margin-bottom: 48px
+        }
+
+        .feat-hero-h {
+            font-size: clamp(32px, 5vw, 52px);
+            font-weight: 700;
+            letter-spacing: -.03em;
+            line-height: 1.05;
+            margin-bottom: 8px
+        }
+
+        .feat-hero-h span {
+            color: var(--muted)
+        }
+
+        .feat-hero-sub {
+            font-size: 14px;
+            color: var(--text2);
+            max-width: 400px;
+            line-height: 1.7
+        }
+
+        .feat-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            border: 1px solid var(--border);
+            margin-bottom: 40px
+        }
+
+        .feat-stat {
+            padding: 16px 20px;
+            border-right: 1px solid var(--border)
+        }
+
+        .feat-stat:last-child {
+            border-right: none
+        }
+
+        .feat-stat-n {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: -.02em;
+            margin-bottom: 2px
+        }
+
+        .feat-stat-n .ac {
+            color: var(--accent)
+        }
+
+        .feat-stat-d {
+            font-family: var(--fm);
+            font-size: 10px;
+            color: var(--text2);
+            letter-spacing: .04em
+        }
+
+        .module-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 52px
+        }
+
+        .module-pill {
+            font-family: var(--fm);
+            font-size: 11px;
+            color: var(--text2);
+            border: 1px solid var(--border);
+            padding: 5px 12px;
+            cursor: pointer;
+            transition: border-color .15s, color .15s, background .15s;
+            background: none;
+            white-space: nowrap
+        }
+
+        .module-pill:hover {
+            border-color: var(--border3);
+            color: var(--text)
+        }
+
+        .module-pill.active {
+            border-color: var(--accent-border);
+            color: var(--accent);
+            background: var(--accent-dim)
+        }
+
+        .module-section {
+            scroll-margin-top: 80px;
+            padding-bottom: 52px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 52px
+        }
+
+        .module-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0
+        }
+
+        .module-header {
+            margin-bottom: 22px
+        }
+
+        .module-title-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 3px
+        }
+
+        .module-num {
+            font-family: var(--fm);
+            font-size: 10px;
+            color: var(--muted)
+        }
+
+        .module-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text);
+            letter-spacing: -.01em
+        }
+
+        .module-tag {
+            font-family: var(--fm);
+            font-size: 9px;
+            letter-spacing: .15em;
+            text-transform: uppercase;
+            border: 1px solid var(--border2);
+            padding: 2px 7px;
+            color: var(--muted);
+            line-height: 1.6
+        }
+
+        .module-desc {
+            font-size: 12px;
+            color: var(--text2)
+        }
+
+        .module-body {
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 40px;
+            align-items: start
+        }
+
+        .module-body.no-terminal {
+            grid-template-columns: 1fr
+        }
+
+        .feat-item {
+            border-bottom: 1px solid var(--border)
+        }
+
+        .feat-item-btn {
+            width: 100%;
+            text-align: left;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 13px 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            color: inherit;
+            font-family: inherit
+        }
+
+        .feat-item-btn:hover .feat-item-name {
+            color: #fff
+        }
+
+        .feat-dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: var(--muted);
+            flex-shrink: 0;
+            margin-top: 6px;
+            transition: background .15s
+        }
+
+        .feat-item-btn:hover .feat-dot {
+            background: var(--text2)
+        }
+
+        .feat-item-content {
+            flex: 1;
+            min-width: 0
+        }
+
+        .feat-item-top {
+            display: flex;
+            align-items: center;
+            gap: 8px
+        }
+
+        .feat-item-name {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text);
+            transition: color .15s
+        }
+
+        .feat-chevron {
+            width: 12px;
+            height: 12px;
+            color: var(--muted);
+            transition: transform .2s;
+            flex-shrink: 0;
+            margin-top: 2px
+        }
+
+        .feat-chevron.open {
+            transform: rotate(180deg)
+        }
+
+        .feat-item-desc {
+            font-size: 12px;
+            color: var(--text2);
+            line-height: 1.6;
+            margin-top: 3px
+        }
+
+        .feat-item-body {
+            overflow: hidden;
+            max-height: 0;
+            transition: max-height .25s ease
+        }
+
+        .feat-item-body.open {
+            max-height: 100px
+        }
+
+        .feat-item-body-inner {
+            padding: 0 0 12px 15px
+        }
+
+        .feat-item-body-inner p {
+            font-size: 12px;
+            color: var(--text2);
+            line-height: 1.65
+        }
+
+        .terminal {
+            border: 1px solid var(--border2);
+            background: #0a0a0d;
+            position: sticky;
+            top: 76px
+        }
+
+        .terminal-hdr {
+            padding: 8px 14px;
+            border-bottom: 1px solid var(--border);
+            font-family: var(--fm);
+            font-size: 10px;
+            letter-spacing: .14em;
+            text-transform: uppercase;
+            color: var(--muted)
+        }
+
+        .terminal-body {
+            padding: 14px;
+            font-family: var(--fm);
+            font-size: 11px;
+            line-height: 1.9
+        }
+
+        .t-line {
+            display: flex;
+            align-items: baseline
+        }
+
+        .t-prompt {
+            color: #a1a1aa;
+            flex-shrink: 0
+        }
+
+        .t-cmd {
+            color: var(--text2);
+            margin-left: 8px
+        }
+
+        .t-out {
+            color: #52525b;
+            padding-left: 18px;
+            display: block
+        }
+
+        .t-out.ac {
+            color: var(--accent)
+        }
+
+        /* COMPAT */
+        .compat-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+            align-items: start;
+            margin-top: 48px
+        }
+
+        .compat-body p {
+            color: var(--text2);
+            line-height: 1.75;
+            margin-bottom: 12px;
+            font-size: 14px
+        }
+
+        .compat-tbl {
+            background: var(--card);
+            border: 1px solid var(--border2)
+        }
+
+        .compat-hdr {
+            padding: 10px 18px;
+            border-bottom: 1px solid var(--border);
+            font-family: var(--fm);
+            font-size: 10px;
+            letter-spacing: .14em;
+            text-transform: uppercase;
+            color: var(--muted);
+            display: flex;
+            justify-content: space-between;
+            align-items: center
+        }
+
+        .compat-score {
+            font-family: var(--fm);
+            font-size: 13px;
+            color: var(--accent)
+        }
+
+        .compat-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 18px;
+            border-bottom: 1px solid var(--border);
+            font-family: var(--fm);
+            font-size: 12px
+        }
+
+        .compat-row:last-child {
+            border-bottom: none
+        }
+
+        .compat-name {
+            color: var(--text2)
+        }
+
+        .compat-chk {
+            color: var(--accent)
+        }
+
+        /* PRICING */
+        .price-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1px;
+            background: var(--border);
+            border: 1px solid var(--border);
+            margin-top: 48px
+        }
+
+        .price-card {
+            background: var(--card);
+            padding: 36px 32px;
+            position: relative
+        }
+
+        .price-card.feat-card {
+            background: var(--card2)
+        }
+
+        .price-tag {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            font-family: var(--fm);
+            font-size: 9px;
+            letter-spacing: .10em;
+            text-transform: uppercase;
+            padding: 3px 8px;
+            border: 1px solid var(--accent-border);
+            background: var(--accent-dim);
+            color: var(--accent)
+        }
+
+        .price-tier {
+            font-family: var(--fm);
+            font-size: 10px;
+            letter-spacing: .16em;
+            text-transform: uppercase;
+            color: var(--text2);
+            margin-bottom: 16px
+        }
+
+        .price-amt {
+            font-size: 52px;
+            font-weight: 700;
+            letter-spacing: -.03em;
+            line-height: 1;
+            margin-bottom: 4px
+        }
+
+        .price-note {
+            font-family: var(--fm);
+            font-size: 11px;
+            color: var(--text2);
+            margin-bottom: 28px
+        }
+
+        .price-list {
+            list-style: none;
+            margin-bottom: 32px
+        }
+
+        .price-list li {
+            font-family: var(--fm);
+            font-size: 12px;
+            color: var(--text2);
+            padding: 7px 0;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 10px
+        }
+
+        .price-list li:last-child {
+            border-bottom: none
+        }
+
+        .price-list li::before {
+            content: '·';
+            color: var(--muted)
+        }
+
+        .price-btn {
+            width: 100%;
+            background: var(--text);
+            color: var(--bg);
+            border: none;
+            padding: 13px;
+            font-family: var(--f);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity .1s;
+            display: block;
+            text-align: center;
+            text-decoration: none
+        }
+
+        .price-btn:hover {
+            opacity: .88;
+            color: var(--bg)
+        }
+
+        .price-btn.ghost {
+            background: none;
+            color: var(--text2);
+            border: 1px solid var(--border2);
+            transition: border-color .1s, color .1s
+        }
+
+        .price-btn.ghost:hover {
+            border-color: var(--border3);
+            color: var(--text)
+        }
+
+        .price-foot {
+            font-family: var(--fm);
+            font-size: 10px;
+            color: var(--muted);
+            text-align: center;
+            margin-top: 24px;
+            letter-spacing: .04em
+        }
+
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 32px 0
+        }
+
+        .foot-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between
+        }
+
+        .foot-logo {
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: .14em;
+            text-transform: uppercase;
+            color: var(--text2)
+        }
+
+        .foot-links {
+            display: flex;
+            gap: 24px
+        }
+
+        .foot-links a {
+            font-family: var(--fm);
+            font-size: 11px;
+            color: var(--muted);
+            transition: color .1s;
+            letter-spacing: .04em
+        }
+
+        .foot-links a:hover {
+            color: var(--text2)
+        }
+
+        .foot-copy {
+            font-family: var(--fm);
+            font-size: 11px;
+            color: var(--muted);
+            letter-spacing: .04em
+        }
+
+        @media(max-width:900px) {
+            .module-body {
+                grid-template-columns: 1fr
+            }
+
+            .terminal {
+                display: none
+            }
+        }
+
+        @media(max-width:768px) {
+            .nav-links {
+                display: none
+            }
+
+            .stats,
+            .feat-stats {
+                grid-template-columns: 1fr 1fr
+            }
+
+            .stat:nth-child(2),
+            .feat-stat:nth-child(2) {
+                border-right: none
+            }
+
+            .stat:nth-child(3),
+            .feat-stat:nth-child(3) {
+                border-top: 1px solid var(--border)
+            }
+
+            .stat:nth-child(4),
+            .feat-stat:nth-child(4) {
+                border-top: 1px solid var(--border);
+                border-right: none
+            }
+
+            .how-grid,
+            .compat-grid {
+                grid-template-columns: 1fr;
+                gap: 32px
+            }
+
+            .price-grid {
+                grid-template-columns: 1fr;
+                gap: 1px
+            }
+
+            .foot-inner {
+                flex-direction: column;
+                gap: 16px;
+                text-align: center
+            }
+
+            .foot-links {
+                flex-wrap: wrap;
+                justify-content: center
+            }
+        }
+
+        @media(max-width:480px) {
+            #hero {
+                padding: 120px 0 64px
+            }
+
+            .hero-btns {
+                flex-direction: column
+            }
+
+            .btn-p,
+            .btn-o {
+                width: 100%;
+                text-align: center
+            }
+
+            section {
+                padding: 64px 0
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-  <nav>
-    <div class="nav-inner">
-      <span class="nav-logo">Budget</span>
-      <div class="nav-links">
-        <a href="#features">Features</a>
-        <a href="#how">How it works</a>
-        <a href="#pricing">Pricing</a>
-      </div>
-      <a href="app.html" class="nav-cta">Open App →</a>
-    </div>
-  </nav>
+    <nav>
+        <div class="nav-inner">
+            <span class="nav-logo">Budget</span>
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#how">How it works</a>
+                <a href="#pricing">Pricing</a>
+            </div>
+            <a href="app.html" class="nav-cta">Open App →</a>
+        </div>
+    </nav>
 
-  <!-- Hero -->
-  <section id="hero">
-    <div class="container">
-      <div class="hero-status">
-        <span class="hero-dot"></span>
-        v1.0 — Fully offline capable
-      </div>
-      <h1 class="hero-h1">Personal finance.</h1>
-      <h1 class="hero-h1-muted">Full control.</h1>
-      <p class="hero-desc">No server. No subscription. No account required. Runs entirely on your device — add it to
-        your home screen and use it offline.</p>
-      <div class="hero-btns">
-        <a href="app.html" class="btn-p">Add to Home Screen →</a>
-        <a href="#features" class="btn-o">View all features</a>
-      </div>
-      <div class="stats">
-        <div class="stat">
-          <div class="stat-n"><span class="ac">0</span></div>
-          <div class="stat-d">Subscriptions required</div>
+    <!-- Hero -->
+    <section id="hero">
+        <div class="container">
+            <div class="hero-status"><span class="hero-dot"></span>v1.0 — Fully offline capable</div>
+            <h1 class="hero-h1">Personal finance.</h1>
+            <h1 class="hero-h1-muted">Full control.</h1>
+            <p class="hero-desc">No server. No subscription. No account required. Runs entirely on your device — add it
+                to your home screen and use it offline.</p>
+            <div class="hero-btns">
+                <a href="app.html" class="btn-p">Add to Home Screen →</a>
+                <a href="#features" class="btn-o">View all features</a>
+            </div>
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-n"><span class="ac">0</span></div>
+                    <div class="stat-d">Subscriptions required</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-n">5</div>
+                    <div class="stat-d">Core modules</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-n">100<span style="font-size:20px;color:var(--muted)">%</span></div>
+                    <div class="stat-d">Local — your data stays yours</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-n"><span class="ac">∞</span></div>
+                    <div class="stat-d">Accounts &amp; transactions</div>
+                </div>
+            </div>
         </div>
-        <div class="stat">
-          <div class="stat-n">5</div>
-          <div class="stat-d">Core modules</div>
-        </div>
-        <div class="stat">
-          <div class="stat-n">100<span style="font-size:20px;color:var(--muted)">%</span></div>
-          <div class="stat-d">Local — your data stays yours</div>
-        </div>
-        <div class="stat">
-          <div class="stat-n"><span class="ac">∞</span></div>
-          <div class="stat-d">Accounts &amp; transactions</div>
-        </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- How it works -->
-  <section id="how">
-    <div class="container">
-      <div class="lbl">Architecture</div>
-      <h2 class="section-h">How it works</h2>
-      <div class="how-grid">
-        <div class="how-body">
-          <p>Everything runs in your browser. Data is stored in <code
-              style="font-family:var(--fm);font-size:12px;color:var(--text2)">localStorage</code> — no requests ever
-            leave your device. The service worker caches all assets on first load, giving you full offline
-            functionality.</p>
-          <p>Add it to your iOS or Android home screen and it behaves exactly like a native app: full-screen, no browser
-            chrome, proper safe-area inset handling.</p>
-          <p>Export your data at any time as a standard CSV. Import from any bank export. You own everything completely.
-          </p>
+    <!-- How it works -->
+    <section id="how">
+        <div class="container">
+            <div class="lbl">Architecture</div>
+            <h2 class="section-h">How it works</h2>
+            <div class="how-grid">
+                <div class="how-body">
+                    <p>Everything runs in your browser. Data is stored in <code
+                            style="font-family:var(--fm);font-size:12px;color:var(--text2)">localStorage</code> — no
+                        requests ever leave your device. The service worker caches all assets on first load, giving you
+                        full offline functionality.</p>
+                    <p>Add it to your iOS or Android home screen and it behaves exactly like a native app: full-screen,
+                        no browser chrome, proper safe-area inset handling.</p>
+                    <p>Export your data at any time as a standard CSV. Import from any bank export. You own everything
+                        completely.</p>
+                </div>
+                <div class="flow-table">
+                    <div class="flow-hdr">Data flow</div>
+                    <div class="flow-row"><span class="flow-key">Storage</span><span class="flow-arr">→</span><span
+                            class="flow-val ac">localStorage only</span></div>
+                    <div class="flow-row"><span class="flow-key">Offline</span><span class="flow-arr">→</span><span
+                            class="flow-val">Service Worker cache</span></div>
+                    <div class="flow-row"><span class="flow-key">Install</span><span class="flow-arr">→</span><span
+                            class="flow-val">PWA · Add to home screen</span></div>
+                    <div class="flow-row"><span class="flow-key">Export</span><span class="flow-arr">→</span><span
+                            class="flow-val">Standard CSV</span></div>
+                    <div class="flow-row"><span class="flow-key">Import</span><span class="flow-arr">→</span><span
+                            class="flow-val">Any bank CSV</span></div>
+                    <div class="flow-row"><span class="flow-key">Server</span><span class="flow-arr">→</span><span
+                            class="flow-val ac">None</span></div>
+                </div>
+            </div>
         </div>
-        <div class="flow-table">
-          <div class="flow-hdr">Data flow</div>
-          <div class="flow-row"><span class="flow-key">Storage</span><span class="flow-arr">→</span><span
-              class="flow-val ac">localStorage only</span></div>
-          <div class="flow-row"><span class="flow-key">Offline</span><span class="flow-arr">→</span><span
-              class="flow-val">Service Worker cache</span></div>
-          <div class="flow-row"><span class="flow-key">Install</span><span class="flow-arr">→</span><span
-              class="flow-val">PWA · Add to home screen</span></div>
-          <div class="flow-row"><span class="flow-key">Export</span><span class="flow-arr">→</span><span
-              class="flow-val">Standard CSV</span></div>
-          <div class="flow-row"><span class="flow-key">Import</span><span class="flow-arr">→</span><span
-              class="flow-val">Any bank CSV</span></div>
-          <div class="flow-row"><span class="flow-key">Server</span><span class="flow-arr">→</span><span
-              class="flow-val ac">None</span></div>
-        </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Features -->
-  <section id="features">
-    <div class="container">
-      <div class="lbl">Capabilities</div>
-      <h2 class="section-h">5 modules. Everything you need.</h2>
-      <div class="feat-grid">
-        <div class="feat">
-          <div class="feat-ico">📊</div>
-          <div class="feat-name">Overview</div>
-          <div class="feat-desc">Monthly net balance, income vs expenses, 6-month trend chart, category breakdown with
-            budget progress bars.</div>
-        </div>
-        <div class="feat">
-          <div class="feat-ico">📒</div>
-          <div class="feat-name">Ledger</div>
-          <div class="feat-desc">Full transaction history with search, filter by type, swipe-to-delete gesture, and
-            instant CSV export.</div>
-        </div>
-        <div class="feat">
-          <div class="feat-ico">💳</div>
-          <div class="feat-name">Accounts</div>
-          <div class="feat-desc">Multiple accounts — bank, cash, crypto, savings, investments. Real-time balance and net
-            worth across all.</div>
-        </div>
-        <div class="feat">
-          <div class="feat-ico">🔄</div>
-          <div class="feat-name">Recurring</div>
-          <div class="feat-desc">Templates for recurring income, expenses and transfers. Monthly or yearly frequency.
-            One-tap apply when due.</div>
-        </div>
-        <div class="feat">
-          <div class="feat-ico">🎯</div>
-          <div class="feat-name">Budgets</div>
-          <div class="feat-desc">Overall monthly limit plus per-category budgets. Visual hairline progress bars with
-            warnings at 80% and 100%.</div>
-        </div>
-        <div class="feat">
-          <div class="feat-ico">📥</div>
-          <div class="feat-name">Import / Export</div>
-          <div class="feat-desc">Import transactions from any bank CSV. Export your full ledger anytime as a standard
-            CSV. No lock-in.</div>
-        </div>
-      </div>
-    </div>
-  </section>
+    <!-- Features — Zerin style -->
+    <section id="features">
+        <div class="container">
 
-  <!-- Full list -->
-  <section>
-    <div class="container">
-      <div class="lbl">Full feature list</div>
-      <h2 class="section-h">Everything included.</h2>
-      <div class="list-grid">
-        <div class="list-col">
-          <div class="list-title">Transactions</div>
-          <ul class="list-items">
-            <li>Income &amp; expense entry</li>
-            <li>Account-to-account transfers</li>
-            <li>Category tagging</li>
-            <li>Emoji icons per entry</li>
-            <li>Notes field</li>
-            <li>Full edit &amp; delete</li>
-            <li>Swipe-to-delete gesture</li>
-            <li>Full-text search</li>
-            <li>Filter by type</li>
-          </ul>
-        </div>
-        <div class="list-col">
-          <div class="list-title">Accounts &amp; Budgets</div>
-          <ul class="list-items">
-            <li>Unlimited accounts</li>
-            <li>Bank, cash, crypto, savings, investments</li>
-            <li>Net worth across all accounts</li>
-            <li>Overall monthly budget limit</li>
-            <li>Per-category budget limits</li>
-            <li>Warning at 80% spend</li>
-            <li>Month navigation (past &amp; future)</li>
-            <li>6-month trend chart</li>
-            <li>Month-over-month delta</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
+            <div class="feat-hero">
+                <div class="lbl">Capabilities</div>
+                <div class="feat-hero-h">5 modules. <span>Everything you need.</span></div>
+                <p class="feat-hero-sub">From transaction tracking to budget limits, recurring items, and import/export.
+                    Fully offline, on your device.</p>
+            </div>
 
-  <!-- Compatibility -->
-  <section>
-    <div class="container">
-      <div class="lbl">Compatibility</div>
-      <h2 class="section-h">Runs everywhere.</h2>
-      <div class="compat-grid">
-        <div class="compat-body">
-          <p>Built as a Progressive Web App. Works in any modern browser with no installation required.</p>
-          <p>On iOS, use Safari → Share → Add to Home Screen for the full native experience with offline support and no
-            browser chrome.</p>
-          <p>On Android, Chrome will prompt you to install automatically. The service worker caches all assets so it
-            loads instantly — even with no connection.</p>
-        </div>
-        <div class="compat-tbl">
-          <div class="compat-hdr"><span>Platform support</span><span class="compat-score">6 / 6</span></div>
-          <div class="compat-row"><span class="compat-name">iOS Safari</span><span class="compat-chk">✓</span></div>
-          <div class="compat-row"><span class="compat-name">Android Chrome</span><span class="compat-chk">✓</span></div>
-          <div class="compat-row"><span class="compat-name">Desktop Chrome</span><span class="compat-chk">✓</span></div>
-          <div class="compat-row"><span class="compat-name">Desktop Firefox</span><span class="compat-chk">✓</span>
-          </div>
-          <div class="compat-row"><span class="compat-name">Desktop Safari</span><span class="compat-chk">✓</span></div>
-          <div class="compat-row"><span class="compat-name">Offline mode</span><span class="compat-chk">✓</span></div>
-        </div>
-      </div>
-    </div>
-  </section>
+            <div class="feat-stats">
+                <div class="feat-stat">
+                    <div class="feat-stat-n"><span class="ac">0</span></div>
+                    <div class="feat-stat-d">Subscriptions</div>
+                </div>
+                <div class="feat-stat">
+                    <div class="feat-stat-n">5</div>
+                    <div class="feat-stat-d">Core modules</div>
+                </div>
+                <div class="feat-stat">
+                    <div class="feat-stat-n">6</div>
+                    <div class="feat-stat-d">Account types</div>
+                </div>
+                <div class="feat-stat">
+                    <div class="feat-stat-n"><span class="ac">∞</span></div>
+                    <div class="feat-stat-d">Transactions</div>
+                </div>
+            </div>
 
-  <!-- Pricing -->
-  <section id="pricing">
-    <div class="container-sm">
-      <div class="lbl">Pricing</div>
-      <h2 class="section-h">One payment. Forever.</h2>
-      <p style="color:var(--text2);margin-top:12px;font-size:15px">No subscriptions. No account. No ads. Updates
-        included.</p>
-      <div class="price-grid">
-        <div class="price-card">
-          <div class="price-tier">Free</div>
-          <div class="price-amt">€0</div>
-          <div class="price-note">Forever free · No card needed</div>
-          <ul class="price-list">
-            <li>Full app access</li>
-            <li>Unlimited transactions</li>
-            <li>All 5 modules</li>
-            <li>CSV import &amp; export</li>
-            <li>Offline support</li>
-          </ul>
-          <a href="app.html" class="price-btn ghost">Open App →</a>
-        </div>
-        <div class="price-card feat-card">
-          <div class="price-tag">Recommended</div>
-          <div class="price-tier">Support</div>
-          <div class="price-amt">€0</div>
-          <div class="price-note">One-time · DIY</div>
-          <ul class="price-list">
-            <li>Everything in Free</li>
-            <li>Supports future development</li>
-            <li>Early access to new features</li>
-            <li>You're a legend</li>
-          </ul>
-          <a href="#" class="price-btn">Support the project →</a>
-        </div>
-      </div>
-      <p class="price-foot">100% of your data stays on your device. No account, no tracking, no analytics.</p>
-    </div>
-  </section>
+            <div class="module-nav">
+                <button class="module-pill active" data-target="mod-overview">Overview</button>
+                <button class="module-pill" data-target="mod-ledger">Ledger</button>
+                <button class="module-pill" data-target="mod-accounts">Accounts</button>
+                <button class="module-pill" data-target="mod-recurring">Recurring</button>
+                <button class="module-pill" data-target="mod-budgets">Budgets</button>
+                <button class="module-pill" data-target="mod-importexport">Import / Export</button>
+            </div>
 
-  <footer>
-    <div class="container">
-      <div class="foot-inner">
-        <span class="foot-logo">Budget</span>
-        <div class="foot-links">
-          <a href="app.html">Open App</a>
-          <a href="#features">Features</a>
-          <a href="#pricing">Pricing</a>
-        </div>
-        <span class="foot-copy">© 2025</span>
-      </div>
-    </div>
-  </footer>
+            <!-- 01 Overview -->
+            <div class="module-section" id="mod-overview">
+                <div class="module-header">
+                    <div class="module-title-row"><span class="module-num">01</span>
+                        <h2 class="module-name">Overview</h2><span class="module-tag">OVW</span>
+                    </div>
+                    <p class="module-desc">Your financial snapshot — income, expenses, trends, and budget progress at a
+                        glance.</p>
+                </div>
+                <div class="module-body">
+                    <div>
+                        <div class="feat-item"><button class="feat-item-btn" onclick="toggleFeat(this)"><span
+                                    class="feat-dot"></span>
+                                <div class="feat-item-content">
+                                    <div class="feat-item-top"><span class="feat-item-name">Monthly net
+                                            balance</span><svg class="feat-chevron" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                                        </svg></div><span class="feat-item-desc">Income vs expense summary for the
+                                        current month</span>
+                                </div>
+                            </button>
+                            <div class="feat-item-body">
+                                <div class="feat-item-body-inner">
+                                    <p>See total income, expenses, and net balance for any month. Navigate forward and
+                                        backward between months freely.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="feat-item"><button class="feat-item-btn" onclick="toggleFeat(this)"><span
+                                    class="feat-dot"></span>
+                                <div class="feat-item-content">
+                                    <div class="feat-item-top"><span class="feat-item-name">6-month trend
+                                            chart</span><svg class="feat-chevron" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                                        </svg></div><span class="feat-item-desc">Visual bar chart of income and spending
+                                        over 6 months</span>
+                                </div>
+                            </button>
+                            <div class="feat-item-body">
+                                <div class="feat-item-body-inner">
+                                    <p>Spot spending patterns immediately. The chart updates live as you add
+                                        transactions — no setup required.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="feat-item"><button class="feat-item-btn" onclick="toggleFeat(this)"><span
+                                    class="feat-dot"></span>
+                                <div class="feat-item-content">
+                                    <div class="feat-item-top"><span class="feat-item-name">Category
+                                            breakdown</span><svg class="feat-chevron" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                                        </svg></div><span class="feat-item-desc">Per-category spend with budget progress
+                                        bars</span>
+                                </div>
+                            </button>
+                            <div class="feat-item-body">
+                                <div class="feat-item-body-inner">
+                                    <p>Hairline progress bars per category. Turns amber at 80% and red at 100% of your
+                                        set budget limit.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="feat-item"><button class="feat-item-btn" onclick="toggleFeat(this)"><span
+                                    class="feat-dot"></span>
+                                <div class="feat-item-content">
+                                    <div class="feat-item-top"><span class="feat-item-name">Month-over-month
+                                            delta</span><svg class="feat-chevron" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                                        </svg></div><span class="feat-item-desc">Percentage change vs the previous
+                                        month</span>
+                                </div>
+                            </button>
+                            <div class="feat-item-body">
+                                <div class="feat-item-body-inner">
+                                    <p>Instantly know if you're spending more or less than last month without digging
+                                        through numbers.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="terminal">
+                            <div class="terminal-hdr">overview</div>
+                            <div class="terminal-body">
+                                <div class="t-line"><span class="t-prompt">$</span><span class="t-cmd">month
+                                        --current</span></div>
+                                <span class="t-out"> Income ......... +€3,240</span>
+                                <span class="t-out"> Expenses ........ -€1,890</span>
+                                <span class="t-out ac"> Net ............. +€1,350</span>
+                                <div class="t-line" style="margin-top:6px"><span class="t-prompt">$</span><span
+                                        class="t-cmd">budget --status</span></div>
+                                <span class="t-out"> Groceries ... 68% of €400</span>
+                                <span class="t-out"> Transport ... 42% of €200</span>
+                                <span class="t-out"> Dining ...... 81% ⚠ €300</span>
+                                <span class="t-out ac"> [OK] 3 of 5 on track</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
+            <!-- 02 Ledger -->
+            <div class="module-section" id="mod-ledger">
+                <div class="module-header">
+                    <div class="module-title-row"><span class="module-num">02</span>
+                        <h2 class="module-name">Ledger</h2><span class="module-tag">LDG</span>
+                    </div>
+                    <p class="module-desc">Full transaction history with search, filtering, and instant export.</p>
+                </div>
+                <div class="module-body">
+                    <div>
+                        <div class="feat-item"><button class="feat-item-btn" onclick="toggleFeat(this)"><span
+                                    class="feat-dot"></span>
+                                <div class="feat-item-content">
+                                    <div class="feat-item-top"><span class="feat-item-name">Full-text search</span><svg
+                                            class="feat-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                                        </svg></div><span class="feat-item-desc">Instant search across all notes,
+                                        categories, and amounts</span>
+                                </div>
+                            </button>
+                            <div class="feat-item-body">
+                                <div class="feat-item-body-inner">
+                                    <p>Type any keyword to instantly filter your transaction history. Results update as
+                                        you type.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="feat-item"><button class="feat-item-btn" onclick="toggleFeat(this)"><span
+                                    class="feat-dot"></span>
+                                <div class="feat-item-content">
+                                    <div class="feat-item-top"><span class="feat-item-name">Filter by type</span><svg
+                                            class="feat-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                                        </svg></div><span class="feat-item-desc">Show only income, expenses, or
+                                        transfers</span>
+                                </div>
+                            </button>
+                            <div class="feat-item-body">
+                                <div class="feat-item-body-inner">
+                                    <p>One-tap filter to isolate any transaction type. Combine with search for precise
+                                        results.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="feat-item"><button class="feat-item-btn" onclick="toggleFeat(this)"><span
+                                    class="feat-dot"></span>
+                                <div class="feat-item-content">
+                                    <div class="feat-item-top"><span class="feat-item-name">Swipe-to-delete</span><svg
+                                            class="feat-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                                        </svg></div><span class="feat-item-desc">Mobile-native swipe gesture for quick
+                                        deletion</span>
+                                </div>
+                            </button>
+                            <div class="feat-item-body">
+                                <div class="feat-item-body-inner">
+                                    <p>Swipe a row left on mobile to reveal delete. Feels completely native.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="feat-item"><button class="feat-item-btn" onclick="toggleFeat(this)"><span
+                                    class="feat-dot"></span>
+                                <div class="feat-item-content">
+                                    <div class="feat-item-top"><span class="feat-item-name">Category &amp; emoji
+                                            tagging</span><svg class="feat-chevron" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                                        </svg></div><span class="feat-item-desc">Tag each entry with a category and
+                                        emoji icon</span>
+                                </div>
+                            </button>
+                            <div class="feat-item-body">
+                                <div class="feat-item-body-inner">
+                                    <p>Use existing categories or create your own. Emoji makes scanning your list fast
+                                        and visual.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="feat-item"><button class="feat-item-btn" onclick="toggleFeat(this)"><span
+                                    class="feat-dot"></span>
+                                <div class="feat-item-content">
+                                    <div class="feat-item-top"><span class="feat-item-name">Instant CSV
+                                            export</span><svg class="feat-chevron" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                                        </svg></div><span class="feat-item-desc">Export your full ledger as a standard
+                                        CSV file</span>
+                                </div>
+                            </button>
+                            <div class="feat-item-body">
+                                <div class="feat-item-body-inner">
+                                    <p>One tap exports every transaction in clean CSV compatible with Excel, Google
+                                        Sheets, or any tool.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="terminal">
+                            <div class="terminal-hdr">ledger</div>
+                            <div class="terminal-body">
+                                <div class="t-line"><span class="t-prompt">$</span><span class="t-cmd">ledger --search
+                                        "coffee"</span></div>
+                                <span class="t-out"> ☕ Coffee — -€3.80</span>
+                                <span class="t-out"> ☕ Coffee — -€4.20</span>
+                                <span class="t-out"> ☕ Flat white — -€3.50</span>
+                                <span class="t-out ac"> 3 results · -€11.50 total</span>
+                                <div class="t-line" style="margin-top:6px"><span class="t-prompt">$</span><span
+                                        class="t-cmd">ledger --export csv</span></div>
+                                <span class="t-out"> [+] 247 transactions</span>
+                                <span class="t-out ac"> [OK] budget-export.csv ready</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 03 Accounts -->
+            <div class="module-section" id="mod-accounts">
+                <div class="module-header">
+                    <div class="module-title-row"><span class="module-num">03</span>
+                        <h2 class="module-name">Accounts</h2><span class="module-tag">ACC</span>
+                    </div>
+                    <p class="module-desc">Multiple account types with real-time balances and total net worth.</p>
+                </div>
+                <div class="module-body no-terminal">
+                    <div>
+                        <div class="feat-item"><button class="feat-item-btn" onclick="toggleFeat(this)"><span
+                                    class="feat-dot"></span>
+                                <div class="feat-item-content">
+                                    <div class="feat-item-top"><span class="feat-item-name">Unlimited accounts</span>
+                                    </div><span class="feat-item-desc">Bank, cash, crypto, savings, investments — any
+                                        type</span>
+                                </div>
+                            </button></div>
+                        <div class="feat-item"><button class="feat-item-btn" onclick="toggleFeat(this)"><span
+                                    class="feat-dot"></span>
+                                <div class="feat-item-content">
+                                    <div class="feat-item-top"><span class="feat-item-name">Account-to-account
+                                            transfers</span></div><span class="feat-item-desc">Move money between
+                                        accounts with a single transaction</span>
+                                </div>
+                            </button></div>
+                        <div class="feat-item"><button class="feat-item-btn" onclick="toggleFeat(this)"><span
+                                    class="feat-dot"></span>
+                                <div class="feat-item-content">
+                                    <div class="feat-item-top"><span class="feat-item-name">Net worth calculation</span>
+                                    </div><span class="feat-item-desc">Real-time total across all accounts
+                                        combined</span>
+                                </div>
+                            </button></div>
+                        <div class="feat-item"><button class="feat-item-btn" onclick="toggleFeat(this)"><span
+                                    class="feat-dot"></span>
+                                <div class="feat-item-content">
+                                    <div class="feat-item-top"><span class="feat-item-name">Running balance per
+                                            account</span></div><span class="feat-item-desc">Balance updated
+                                        automatically with every transaction</span>
+                                </div>
+                            </button></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 04 Recurring -->
+            <div class="module-section" id="mod-recurring">
+                <div class="module-header">
+                    <div class="module-title-row"><span class="module-num">04</span>
+                        <h2 class="module-name">Recurring</h2><span class="module-tag">REC</span>
+                    </div>
+                    <p class="module-desc">Templates for recurring income, expenses, and transfers. One tap to apply
+                        when due.</p>
+                </div>
+                <div class="module-body">
+                    <div>
+                        <div class="feat-item"><button class="feat-item-btn" onclick="toggleFeat(this)"><span
+                                    class="feat-dot"></span>
+                                <div class="feat-item-content">
+                                    <div class="feat-item-top"><span class="feat-item-name">Monthly &amp; yearly
+                                            frequency</span><svg class="feat-chevron" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                                        </svg></div><span class="feat-item-desc">Rent, salary, subscriptions, insurance
+                                        — any repeating item</span>
+                                </div>
+                            </button>
+                            <div class="feat-item-body">
+                                <div class="feat-item-body-inner">
+                                    <p>Set any item to repeat monthly or yearly. Works for income, expenses, and
+                                        inter-account transfers.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="feat-item"><button class="feat-item-btn" onclick="toggleFeat(this)"><span
+                                    class="feat-dot"></span>
+                                <div class="feat-item-content">
+                                    <div class="feat-item-top"><span class="feat-item-name">One-tap apply</span><svg
+                                            class="feat-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                                        </svg></div><span class="feat-item-desc">Apply a template directly to your
+                                        ledger when due</span>
+                                </div>
+                            </button>
+                            <div class="feat-item-body">
+                                <div class="feat-item-body-inner">
+                                    <p>Templates pre-fill all fields. Confirm the amount and tap apply — takes under two
+                                        seconds.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="feat-item"><button class="feat-item-btn" onclick="toggleFeat(this)"><span
+                                    class="feat-dot"></span>
+                                <div class="feat-item-content">
+                                    <div class="feat-item-top"><span class="feat-item-name">All transaction
+                                            types</span><svg class="feat-chevron" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                                        </svg></div><span class="feat-item-desc">Supports income, expense, and transfer
+                                        templates</span>
+                                </div>
+                            </button>
+                            <div class="feat-item-body">
+                                <div class="feat-item-body-inner">
+                                    <p>Each template stores account, amount, category, and note — fully pre-filled on
+                                        apply.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="terminal">
+                            <div class="terminal-hdr">recurring</div>
+                            <div class="terminal-body">
+                                <div class="t-line"><span class="t-prompt">$</span><span class="t-cmd">recurring
+                                        --list</span></div>
+                                <span class="t-out"> 💰 Salary ......... monthly</span>
+                                <span class="t-out"> 🏠 Rent ........... monthly</span>
+                                <span class="t-out"> 📱 Phone plan ...... monthly</span>
+                                <span class="t-out"> 🔒 Insurance ....... yearly</span>
+                                <div class="t-line" style="margin-top:6px"><span class="t-prompt">$</span><span
+                                        class="t-cmd">recurring --apply "Rent"</span></div>
+                                <span class="t-out ac"> [OK] Added to ledger — -€950</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 05 Budgets -->
+            <div class="module-section" id="mod-budgets">
+                <div class="module-header">
+                    <div class="module-title-row"><span class="module-num">05</span>
+                        <h2 class="module-name">Budgets</h2><span class="module-tag">BGT</span>
+                    </div>
+                    <p class="module-desc">Overall monthly limit plus per-category budgets with visual progress
+                        tracking.</p>
+                </div>
+                <div class="module-body no-terminal">
+                    <div>
+                        <div class="feat-item"><button class="feat-item-btn" onclick="toggleFeat(this)"><span
+                                    class="feat-dot"></span>
+                                <div class="feat-item-content">
+                                    <div class="feat-item-top"><span class="feat-item-name">Overall monthly budget
+                                            limit</span></div><span class="feat-item-desc">Set a single cap for your
+                                        total monthly spending</span>
+                                </div>
+                            </button></div>
+                        <div class="feat-item"><button class="feat-item-btn" onclick="toggleFeat(this)"><span
+                                    class="feat-dot"></span>
+                                <div class="feat-item-content">
+                                    <div class="feat-item-top"><span class="feat-item-name">Per-category limits</span>
+                                    </div><span class="feat-item-desc">Individual budget caps for each spending
+                                        category</span>
+                                </div>
+                            </button></div>
+                        <div class="feat-item"><button class="feat-item-btn" onclick="toggleFeat(this)"><span
+                                    class="feat-dot"></span>
+                                <div class="feat-item-content">
+                                    <div class="feat-item-top"><span class="feat-item-name">Visual progress bars</span>
+                                    </div><span class="feat-item-desc">Hairline bars with warnings at 80% and 100% of
+                                        limit</span>
+                                </div>
+                            </button></div>
+                        <div class="feat-item"><button class="feat-item-btn" onclick="toggleFeat(this)"><span
+                                    class="feat-dot"></span>
+                                <div class="feat-item-content">
+                                    <div class="feat-item-top"><span class="feat-item-name">Month navigation</span>
+                                    </div><span class="feat-item-desc">Review budget performance for any past or future
+                                        month</span>
+                                </div>
+                            </button></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 06 Import/Export -->
+            <div class="module-section" id="mod-importexport">
+                <div class="module-header">
+                    <div class="module-title-row"><span class="module-num">06</span>
+                        <h2 class="module-name">Import / Export</h2><span class="module-tag">I/O</span>
+                    </div>
+                    <p class="module-desc">Bring in your bank data. Take your data anywhere. No lock-in, ever.</p>
+                </div>
+                <div class="module-body">
+                    <div>
+                        <div class="feat-item"><button class="feat-item-btn" onclick="toggleFeat(this)"><span
+                                    class="feat-dot"></span>
+                                <div class="feat-item-content">
+                                    <div class="feat-item-top"><span class="feat-item-name">Bank CSV import</span><svg
+                                            class="feat-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                                        </svg></div><span class="feat-item-desc">Import transaction exports from any
+                                        bank in CSV format</span>
+                                </div>
+                            </button>
+                            <div class="feat-item-body">
+                                <div class="feat-item-body-inner">
+                                    <p>Download your bank's transaction export and import it directly. Date, amount, and
+                                        description are parsed automatically.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="feat-item"><button class="feat-item-btn" onclick="toggleFeat(this)"><span
+                                    class="feat-dot"></span>
+                                <div class="feat-item-content">
+                                    <div class="feat-item-top"><span class="feat-item-name">Full ledger
+                                            export</span><svg class="feat-chevron" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                                        </svg></div><span class="feat-item-desc">Export every transaction with all
+                                        fields intact</span>
+                                </div>
+                            </button>
+                            <div class="feat-item-body">
+                                <div class="feat-item-body-inner">
+                                    <p>The export includes date, type, amount, account, category, emoji, and note. Fully
+                                        portable to any spreadsheet app.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="feat-item"><button class="feat-item-btn" onclick="toggleFeat(this)"><span
+                                    class="feat-dot"></span>
+                                <div class="feat-item-content">
+                                    <div class="feat-item-top"><span class="feat-item-name">Zero lock-in</span><svg
+                                            class="feat-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                                        </svg></div><span class="feat-item-desc">Standard CSV — your data works
+                                        anywhere, forever</span>
+                                </div>
+                            </button>
+                            <div class="feat-item-body">
+                                <div class="feat-item-body-inner">
+                                    <p>No proprietary format. No account to delete. If you ever move on, your full data
+                                        goes with you.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="terminal">
+                            <div class="terminal-hdr">import-export</div>
+                            <div class="terminal-body">
+                                <div class="t-line"><span class="t-prompt">$</span><span class="t-cmd">import --file
+                                        bank_jan.csv</span></div>
+                                <span class="t-out"> [*] Parsing CSV...</span>
+                                <span class="t-out"> [+] 84 transactions found</span>
+                                <span class="t-out"> [+] Duplicates skipped: 3</span>
+                                <span class="t-out ac"> [OK] 81 imported successfully</span>
+                                <div class="t-line" style="margin-top:6px"><span class="t-prompt">$</span><span
+                                        class="t-cmd">export --all</span></div>
+                                <span class="t-out"> [+] 312 transactions</span>
+                                <span class="t-out ac"> [OK] budget-full.csv saved</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Compatibility -->
+    <section>
+        <div class="container">
+            <div class="lbl">Compatibility</div>
+            <h2 class="section-h">Runs everywhere.</h2>
+            <div class="compat-grid">
+                <div class="compat-body">
+                    <p>Built as a Progressive Web App. Works in any modern browser with no installation required.</p>
+                    <p>On iOS, use Safari → Share → Add to Home Screen for the full native experience with offline
+                        support and no browser chrome.</p>
+                    <p>On Android, Chrome will prompt you to install automatically. The service worker caches all assets
+                        so it loads instantly — even with no connection.</p>
+                </div>
+                <div class="compat-tbl">
+                    <div class="compat-hdr"><span>Platform support</span><span class="compat-score">6 / 6</span></div>
+                    <div class="compat-row"><span class="compat-name">iOS Safari</span><span class="compat-chk">✓</span>
+                    </div>
+                    <div class="compat-row"><span class="compat-name">Android Chrome</span><span
+                            class="compat-chk">✓</span></div>
+                    <div class="compat-row"><span class="compat-name">Desktop Chrome</span><span
+                            class="compat-chk">✓</span></div>
+                    <div class="compat-row"><span class="compat-name">Desktop Firefox</span><span
+                            class="compat-chk">✓</span></div>
+                    <div class="compat-row"><span class="compat-name">Desktop Safari</span><span
+                            class="compat-chk">✓</span></div>
+                    <div class="compat-row"><span class="compat-name">Offline mode</span><span
+                            class="compat-chk">✓</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section id="pricing">
+        <div class="container-sm">
+            <div class="lbl">Pricing</div>
+            <h2 class="section-h">One payment. Forever.</h2>
+            <p style="color:var(--text2);margin-top:12px;font-size:15px">No subscriptions. No account. No ads. Updates
+                included.</p>
+            <div class="price-grid">
+                <div class="price-card">
+                    <div class="price-tier">Free</div>
+                    <div class="price-amt">€0</div>
+                    <div class="price-note">Forever free · No card needed</div>
+                    <ul class="price-list">
+                        <li>Full app access</li>
+                        <li>Unlimited transactions</li>
+                        <li>All 5 modules</li>
+                        <li>CSV import &amp; export</li>
+                        <li>Offline support</li>
+                    </ul>
+                    <a href="app.html" class="price-btn ghost">Open App →</a>
+                </div>
+                <div class="price-card feat-card">
+                    <div class="price-tag">Recommended</div>
+                    <div class="price-tier">Support</div>
+                    <div class="price-amt">€0</div>
+                    <div class="price-note">One-time · DIY</div>
+                    <ul class="price-list">
+                        <li>Everything in Free</li>
+                        <li>Supports future development</li>
+                        <li>Early access to new features</li>
+                        <li>You're a legend</li>
+                    </ul>
+                    <a href="#" class="price-btn">Support the project →</a>
+                </div>
+            </div>
+            <p class="price-foot">100% of your data stays on your device. No account, no tracking, no analytics.</p>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="foot-inner">
+                <span class="foot-logo">Budget</span>
+                <div class="foot-links">
+                    <a href="app.html">Open App</a>
+                    <a href="#features">Features</a>
+                    <a href="#pricing">Pricing</a>
+                </div>
+                <span class="foot-copy">© 2025</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleFeat(btn) {
+            const body = btn.parentElement.querySelector('.feat-item-body');
+            const chevron = btn.querySelector('.feat-chevron');
+            if (!body) return;
+            const open = body.classList.toggle('open');
+            if (chevron) chevron.classList.toggle('open', open);
+        }
+
+        document.querySelectorAll('.module-pill').forEach(pill => {
+            pill.addEventListener('click', function () {
+                const target = document.getElementById(this.dataset.target);
+                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                document.querySelectorAll('.module-pill').forEach(p => p.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        const sections = ['mod-overview', 'mod-ledger', 'mod-accounts', 'mod-recurring', 'mod-budgets', 'mod-importexport'];
+        const pills = document.querySelectorAll('.module-pill');
+        const obs = new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    const idx = sections.indexOf(e.target.id);
+                    if (idx > -1) { pills.forEach(p => p.classList.remove('active')); if (pills[idx]) pills[idx].classList.add('active'); }
+                }
+            });
+        }, { threshold: 0.35 });
+        sections.forEach(id => { const el = document.getElementById(id); if (el) obs.observe(el); });
+    </script>
 </body>
 
 </html>
