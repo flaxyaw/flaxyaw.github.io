@@ -1,0 +1,260 @@
+/* ── app.css ─────────────────────────────────────────
+   App-specific layout on top of theme.css
+   ──────────────────────────────────────────────────── */
+
+:root {
+  --nav-h: 44px;
+  --tab-h: 50px;
+}
+
+/* ── Scroll area ── */
+.scroll-area {
+  position: fixed;
+  top: calc(var(--safe-top) + var(--nav-h));
+  bottom: calc(var(--safe-bot) + var(--tab-h));
+  left: 0;
+  right: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+}
+
+.page-inner {
+  max-width: 600px;
+  margin: 0 auto;
+  padding-bottom: 20px;
+}
+
+/* ── Pages ── */
+.page {
+  display: none;
+}
+
+.page.active {
+  display: block;
+}
+
+/* ── Top nav height ── */
+.top-nav {
+  height: calc(var(--safe-top) + var(--nav-h));
+}
+
+.top-nav-inner {
+  height: var(--nav-h);
+}
+
+/* ── Bottom tabs height ── */
+.bottom-tabs {
+  height: calc(var(--safe-bot) + var(--tab-h));
+  padding-bottom: var(--safe-bot);
+}
+
+/* ── Transaction row: sub-text uses → prefix ── */
+/* The arrow is injected as text content in render.js,
+   this just ensures the mono font and muted color */
+.row-sub-transfer {
+  font-family: var(--f-mono);
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+}
+
+/* ── Category breakdown rows ── */
+.cat-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.cat-row:last-child {
+  border-bottom: none;
+}
+
+.cat-name {
+  font-family: var(--f-mono);
+  font-size: 11px;
+  color: var(--text2);
+  width: 86px;
+  flex-shrink: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cat-track {
+  flex: 1;
+  height: 1px;
+  background: var(--border2);
+  position: relative;
+}
+
+.cat-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 1px;
+  background: var(--text2);
+  transition: width .5s;
+}
+
+.cat-fill.near {
+  background: var(--yellow);
+}
+
+.cat-fill.over {
+  background: var(--red);
+}
+
+.cat-right {
+  font-family: var(--f-mono);
+  font-size: 10px;
+  color: var(--muted);
+  width: 68px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+/* ── Overall budget strip ── */
+.ob-strip {
+  background: var(--card2);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 13px 20px;
+  cursor: pointer;
+  transition: background var(--dur-fast);
+}
+
+.ob-strip:active {
+  background: var(--card3);
+}
+
+.ob-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 8px;
+}
+
+.ob-lbl {
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.ob-nums {
+  font-family: var(--f-mono);
+  font-size: 11px;
+  color: var(--text2);
+}
+
+.ob-track {
+  height: 1px;
+  background: var(--border2);
+}
+
+.ob-fill {
+  height: 1px;
+  background: var(--accent);
+  transition: width .5s;
+}
+
+.ob-fill.near {
+  background: var(--yellow);
+}
+
+.ob-fill.over {
+  background: var(--red);
+}
+
+/* ── Chart ── */
+.chart-wrap {
+  background: var(--card);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 20px 10px;
+}
+
+.chart-legend {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 10px;
+}
+
+.leg {
+  font-family: var(--f-mono);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.leg-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ── Swipe-to-delete ── */
+.swipe-bg {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: var(--red);
+  display: flex;
+  align-items: center;
+  padding-right: 20px;
+  gap: 6px;
+  font-family: var(--f-mono);
+  font-size: 9px;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: #fff;
+  pointer-events: none;
+  transform: translateX(100%);
+}
+
+.row.reveal .swipe-bg {
+  transform: translateX(0);
+}
+
+/* ── FAB position ── */
+.fab {
+  bottom: calc(var(--safe-bot) + var(--tab-h) + 14px);
+  right: 16px;
+}
+
+/* ── Quick menu position ── */
+.quick-menu {
+  bottom: calc(var(--safe-bot) + var(--tab-h) + 66px);
+  right: 16px;
+}
+
+/* ── Import drop zone ── */
+.import-drop {
+  border: 1px dashed var(--border2);
+  padding: 24px;
+  text-align: center;
+  color: var(--muted);
+  font-family: var(--f-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  display: block;
+  margin-bottom: 10px;
+  transition: border-color var(--dur-fast), color var(--dur-fast);
+}
+
+.import-drop:active {
+  border-color: var(--border3);
+  color: var(--text2);
+}

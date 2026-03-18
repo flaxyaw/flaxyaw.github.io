@@ -1,0 +1,1031 @@
+/*claude wouldnt crawl and copy zerin for me so thats the best it could come up with.*/
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#080808">
+  <title>Budget — Personal finance. Full control.</title>
+  <meta name="description"
+    content="A no-subscription personal budget app. Tracks income, expenses, accounts, recurring items and budgets. Runs offline on any device.">
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg: #080808;
+      --bg2: #0e0e0e;
+      --card: #111111;
+      --card2: #161616;
+      --border: #1f1f1f;
+      --border2: #2a2a2a;
+      --border3: #363636;
+      --text: #f0f0f0;
+      --text2: #808080;
+      --muted: #404040;
+      --accent: #00c896;
+      --accent-dim: rgba(0, 200, 150, .10);
+      --accent-border: rgba(0, 200, 150, .22);
+      --red: #ff4444;
+      --green: #00c896;
+      --f: 'DM Sans', sans-serif;
+      --fm: 'DM Mono', monospace;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+
+    html {
+      scroll-behavior: smooth
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--f);
+      font-size: 15px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none
+    }
+
+    /* Nav */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      border-bottom: 1px solid var(--border);
+      background: rgba(8, 8, 8, .92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px)
+    }
+
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      gap: 32px
+    }
+
+    .nav-logo {
+      font-family: var(--f);
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--text)
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      margin-left: auto
+    }
+
+    .nav-links a {
+      font-size: 13px;
+      color: var(--text2);
+      transition: color .1s
+    }
+
+    .nav-links a:hover {
+      color: var(--text)
+    }
+
+    .nav-cta {
+      margin-left: 16px;
+      background: var(--text);
+      color: var(--bg);
+      border: none;
+      padding: 8px 18px;
+      font-family: var(--f);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: opacity .1s;
+      text-decoration: none;
+      display: inline-block
+    }
+
+    .nav-cta:hover {
+      opacity: .88;
+      color: var(--bg)
+    }
+
+    /* Layout */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px
+    }
+
+    .container-sm {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 24px
+    }
+
+    section {
+      padding: 96px 0;
+      border-bottom: 1px solid var(--border)
+    }
+
+    section:last-child {
+      border-bottom: none
+    }
+
+    .lbl {
+      font-family: var(--fm);
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--text2);
+      margin-bottom: 14px
+    }
+
+    .section-h {
+      font-size: clamp(28px, 4vw, 44px);
+      font-weight: 700;
+      letter-spacing: -.02em
+    }
+
+    /* Hero */
+    #hero {
+      padding: 160px 0 96px;
+      border-bottom: 1px solid var(--border)
+    }
+
+    .hero-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--fm);
+      font-size: 11px;
+      color: var(--text2);
+      margin-bottom: 32px
+    }
+
+    .hero-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+      box-shadow: 0 0 8px var(--accent);
+      animation: blink 2.4s ease-in-out infinite
+    }
+
+    @keyframes blink {
+
+      0%,
+      100% {
+        opacity: 1
+      }
+
+      50% {
+        opacity: .35
+      }
+    }
+
+    .hero-h1 {
+      font-size: clamp(44px, 7.5vw, 86px);
+      font-weight: 700;
+      line-height: 1.03;
+      letter-spacing: -.03em;
+      margin-bottom: 6px
+    }
+
+    .hero-h1-muted {
+      font-size: clamp(44px, 7.5vw, 86px);
+      font-weight: 700;
+      line-height: 1.03;
+      letter-spacing: -.03em;
+      color: var(--muted);
+      margin-bottom: 28px
+    }
+
+    .hero-desc {
+      font-size: 16px;
+      color: var(--text2);
+      max-width: 460px;
+      line-height: 1.7;
+      margin-bottom: 40px
+    }
+
+    .hero-btns {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap
+    }
+
+    .btn-p {
+      background: var(--text);
+      color: var(--bg);
+      border: none;
+      padding: 13px 28px;
+      font-family: var(--f);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity .1s;
+      display: inline-block;
+      text-decoration: none
+    }
+
+    .btn-p:hover {
+      opacity: .88;
+      color: var(--bg)
+    }
+
+    .btn-o {
+      background: none;
+      color: var(--text2);
+      border: 1px solid var(--border2);
+      padding: 13px 28px;
+      font-family: var(--f);
+      font-size: 14px;
+      cursor: pointer;
+      transition: border-color .1s, color .1s;
+      display: inline-block;
+      text-decoration: none
+    }
+
+    .btn-o:hover {
+      border-color: var(--border3);
+      color: var(--text)
+    }
+
+    /* Stat strip */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border: 1px solid var(--border);
+      margin-top: 72px
+    }
+
+    .stat {
+      padding: 24px 28px;
+      border-right: 1px solid var(--border)
+    }
+
+    .stat:last-child {
+      border-right: none
+    }
+
+    .stat-n {
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: -.02em;
+      margin-bottom: 4px
+    }
+
+    .stat-n .ac {
+      color: var(--accent)
+    }
+
+    .stat-d {
+      font-family: var(--fm);
+      font-size: 11px;
+      color: var(--text2);
+      letter-spacing: .04em
+    }
+
+    /* How it works */
+    .how-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: start;
+      margin-top: 48px
+    }
+
+    .how-body p {
+      color: var(--text2);
+      line-height: 1.75;
+      margin-bottom: 16px;
+      font-size: 14px
+    }
+
+    .flow-table {
+      background: var(--card);
+      border: 1px solid var(--border2)
+    }
+
+    .flow-hdr {
+      padding: 10px 18px;
+      border-bottom: 1px solid var(--border);
+      font-family: var(--fm);
+      font-size: 10px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--muted)
+    }
+
+    .flow-row {
+      display: flex;
+      align-items: baseline;
+      padding: 12px 18px;
+      border-bottom: 1px solid var(--border);
+      font-family: var(--fm);
+      font-size: 13px
+    }
+
+    .flow-row:last-child {
+      border-bottom: none
+    }
+
+    .flow-key {
+      color: var(--text2);
+      width: 110px;
+      flex-shrink: 0
+    }
+
+    .flow-arr {
+      color: var(--muted);
+      padding: 0 12px;
+      font-size: 11px
+    }
+
+    .flow-val {
+      color: var(--text)
+    }
+
+    .flow-val.ac {
+      color: var(--accent)
+    }
+
+    /* Features */
+    .feat-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-top: 1px solid var(--border);
+      border-left: 1px solid var(--border);
+      margin-top: 48px
+    }
+
+    .feat {
+      padding: 28px 24px;
+      border-right: 1px solid var(--border);
+      border-bottom: 1px solid var(--border)
+    }
+
+    .feat-ico {
+      font-size: 22px;
+      margin-bottom: 14px
+    }
+
+    .feat-name {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 8px
+    }
+
+    .feat-desc {
+      font-size: 13px;
+      color: var(--text2);
+      line-height: 1.6
+    }
+
+    /* Full list */
+    .list-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border: 1px solid var(--border);
+      margin-top: 48px
+    }
+
+    .list-col {
+      padding: 28px 24px;
+      border-right: 1px solid var(--border)
+    }
+
+    .list-col:last-child {
+      border-right: none
+    }
+
+    .list-title {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 16px
+    }
+
+    .list-items {
+      list-style: none
+    }
+
+    .list-items li {
+      font-family: var(--fm);
+      font-size: 12px;
+      color: var(--text2);
+      padding: 5px 0;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 10px
+    }
+
+    .list-items li:last-child {
+      border-bottom: none
+    }
+
+    .list-items li::before {
+      content: '·';
+      color: var(--muted);
+      flex-shrink: 0
+    }
+
+    /* Compatibility */
+    .compat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: start;
+      margin-top: 48px
+    }
+
+    .compat-body p {
+      color: var(--text2);
+      line-height: 1.75;
+      margin-bottom: 12px;
+      font-size: 14px
+    }
+
+    .compat-tbl {
+      background: var(--card);
+      border: 1px solid var(--border2)
+    }
+
+    .compat-hdr {
+      padding: 10px 18px;
+      border-bottom: 1px solid var(--border);
+      font-family: var(--fm);
+      font-size: 10px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center
+    }
+
+    .compat-score {
+      font-family: var(--fm);
+      font-size: 13px;
+      color: var(--accent)
+    }
+
+    .compat-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 18px;
+      border-bottom: 1px solid var(--border);
+      font-family: var(--fm);
+      font-size: 12px
+    }
+
+    .compat-row:last-child {
+      border-bottom: none
+    }
+
+    .compat-name {
+      color: var(--text2)
+    }
+
+    .compat-chk {
+      color: var(--accent)
+    }
+
+    /* Pricing */
+    .price-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      margin-top: 48px
+    }
+
+    .price-card {
+      background: var(--card);
+      padding: 36px 32px;
+      position: relative
+    }
+
+    .price-card.feat-card {
+      background: var(--card2)
+    }
+
+    .price-tag {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      font-family: var(--fm);
+      font-size: 9px;
+      letter-spacing: .10em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border: 1px solid var(--accent-border);
+      background: var(--accent-dim);
+      color: var(--accent)
+    }
+
+    .price-tier {
+      font-family: var(--fm);
+      font-size: 10px;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--text2);
+      margin-bottom: 16px
+    }
+
+    .price-amt {
+      font-size: 52px;
+      font-weight: 700;
+      letter-spacing: -.03em;
+      line-height: 1;
+      margin-bottom: 4px
+    }
+
+    .price-note {
+      font-family: var(--fm);
+      font-size: 11px;
+      color: var(--text2);
+      margin-bottom: 28px
+    }
+
+    .price-list {
+      list-style: none;
+      margin-bottom: 32px
+    }
+
+    .price-list li {
+      font-family: var(--fm);
+      font-size: 12px;
+      color: var(--text2);
+      padding: 7px 0;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 10px
+    }
+
+    .price-list li:last-child {
+      border-bottom: none
+    }
+
+    .price-list li::before {
+      content: '·';
+      color: var(--muted)
+    }
+
+    .price-btn {
+      width: 100%;
+      background: var(--text);
+      color: var(--bg);
+      border: none;
+      padding: 13px;
+      font-family: var(--f);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity .1s;
+      display: block;
+      text-align: center;
+      text-decoration: none
+    }
+
+    .price-btn:hover {
+      opacity: .88;
+      color: var(--bg)
+    }
+
+    .price-btn.ghost {
+      background: none;
+      color: var(--text2);
+      border: 1px solid var(--border2);
+      transition: border-color .1s, color .1s
+    }
+
+    .price-btn.ghost:hover {
+      border-color: var(--border3);
+      color: var(--text)
+    }
+
+    .price-foot {
+      font-family: var(--fm);
+      font-size: 10px;
+      color: var(--muted);
+      text-align: center;
+      margin-top: 24px;
+      letter-spacing: .04em
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 0
+    }
+
+    .foot-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between
+    }
+
+    .foot-logo {
+      font-family: var(--f);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--text2)
+    }
+
+    .foot-links {
+      display: flex;
+      gap: 24px
+    }
+
+    .foot-links a {
+      font-family: var(--fm);
+      font-size: 11px;
+      color: var(--muted);
+      transition: color .1s;
+      letter-spacing: .04em
+    }
+
+    .foot-links a:hover {
+      color: var(--text2)
+    }
+
+    .foot-copy {
+      font-family: var(--fm);
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: .04em
+    }
+
+    /* Responsive */
+    @media(max-width:768px) {
+      .nav-links {
+        display: none
+      }
+
+      .stats {
+        grid-template-columns: 1fr 1fr
+      }
+
+      .stat:nth-child(2) {
+        border-right: none
+      }
+
+      .stat:nth-child(3) {
+        border-top: 1px solid var(--border)
+      }
+
+      .stat:nth-child(4) {
+        border-top: 1px solid var(--border);
+        border-right: none
+      }
+
+      .how-grid {
+        grid-template-columns: 1fr;
+        gap: 32px
+      }
+
+      .feat-grid {
+        grid-template-columns: 1fr 1fr
+      }
+
+      .list-grid {
+        grid-template-columns: 1fr
+      }
+
+      .list-col {
+        border-right: none;
+        border-bottom: 1px solid var(--border)
+      }
+
+      .list-col:last-child {
+        border-bottom: none
+      }
+
+      .compat-grid {
+        grid-template-columns: 1fr;
+        gap: 32px
+      }
+
+      .price-grid {
+        grid-template-columns: 1fr;
+        gap: 1px
+      }
+
+      .foot-inner {
+        flex-direction: column;
+        gap: 16px;
+        text-align: center
+      }
+
+      .foot-links {
+        flex-wrap: wrap;
+        justify-content: center
+      }
+    }
+
+    @media(max-width:480px) {
+      #hero {
+        padding: 120px 0 64px
+      }
+
+      .hero-btns {
+        flex-direction: column
+      }
+
+      .btn-p,
+      .btn-o {
+        width: 100%;
+        text-align: center
+      }
+
+      .feat-grid {
+        grid-template-columns: 1fr
+      }
+
+      section {
+        padding: 64px 0
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav>
+    <div class="nav-inner">
+      <span class="nav-logo">Budget</span>
+      <div class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#how">How it works</a>
+        <a href="#pricing">Pricing</a>
+      </div>
+      <a href="app.html" class="nav-cta">Open App →</a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section id="hero">
+    <div class="container">
+      <div class="hero-status">
+        <span class="hero-dot"></span>
+        v1.0 — Fully offline capable
+      </div>
+      <h1 class="hero-h1">Personal finance.</h1>
+      <h1 class="hero-h1-muted">Full control.</h1>
+      <p class="hero-desc">No server. No subscription. No account required. Runs entirely on your device — add it to
+        your home screen and use it offline.</p>
+      <div class="hero-btns">
+        <a href="app.html" class="btn-p">Add to Home Screen →</a>
+        <a href="#features" class="btn-o">View all features</a>
+      </div>
+      <div class="stats">
+        <div class="stat">
+          <div class="stat-n"><span class="ac">0</span></div>
+          <div class="stat-d">Subscriptions required</div>
+        </div>
+        <div class="stat">
+          <div class="stat-n">5</div>
+          <div class="stat-d">Core modules</div>
+        </div>
+        <div class="stat">
+          <div class="stat-n">100<span style="font-size:20px;color:var(--muted)">%</span></div>
+          <div class="stat-d">Local — your data stays yours</div>
+        </div>
+        <div class="stat">
+          <div class="stat-n"><span class="ac">∞</span></div>
+          <div class="stat-d">Accounts &amp; transactions</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section id="how">
+    <div class="container">
+      <div class="lbl">Architecture</div>
+      <h2 class="section-h">How it works</h2>
+      <div class="how-grid">
+        <div class="how-body">
+          <p>Everything runs in your browser. Data is stored in <code
+              style="font-family:var(--fm);font-size:12px;color:var(--text2)">localStorage</code> — no requests ever
+            leave your device. The service worker caches all assets on first load, giving you full offline
+            functionality.</p>
+          <p>Add it to your iOS or Android home screen and it behaves exactly like a native app: full-screen, no browser
+            chrome, proper safe-area inset handling.</p>
+          <p>Export your data at any time as a standard CSV. Import from any bank export. You own everything completely.
+          </p>
+        </div>
+        <div class="flow-table">
+          <div class="flow-hdr">Data flow</div>
+          <div class="flow-row"><span class="flow-key">Storage</span><span class="flow-arr">→</span><span
+              class="flow-val ac">localStorage only</span></div>
+          <div class="flow-row"><span class="flow-key">Offline</span><span class="flow-arr">→</span><span
+              class="flow-val">Service Worker cache</span></div>
+          <div class="flow-row"><span class="flow-key">Install</span><span class="flow-arr">→</span><span
+              class="flow-val">PWA · Add to home screen</span></div>
+          <div class="flow-row"><span class="flow-key">Export</span><span class="flow-arr">→</span><span
+              class="flow-val">Standard CSV</span></div>
+          <div class="flow-row"><span class="flow-key">Import</span><span class="flow-arr">→</span><span
+              class="flow-val">Any bank CSV</span></div>
+          <div class="flow-row"><span class="flow-key">Server</span><span class="flow-arr">→</span><span
+              class="flow-val ac">None</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section id="features">
+    <div class="container">
+      <div class="lbl">Capabilities</div>
+      <h2 class="section-h">5 modules. Everything you need.</h2>
+      <div class="feat-grid">
+        <div class="feat">
+          <div class="feat-ico">📊</div>
+          <div class="feat-name">Overview</div>
+          <div class="feat-desc">Monthly net balance, income vs expenses, 6-month trend chart, category breakdown with
+            budget progress bars.</div>
+        </div>
+        <div class="feat">
+          <div class="feat-ico">📒</div>
+          <div class="feat-name">Ledger</div>
+          <div class="feat-desc">Full transaction history with search, filter by type, swipe-to-delete gesture, and
+            instant CSV export.</div>
+        </div>
+        <div class="feat">
+          <div class="feat-ico">💳</div>
+          <div class="feat-name">Accounts</div>
+          <div class="feat-desc">Multiple accounts — bank, cash, crypto, savings, investments. Real-time balance and net
+            worth across all.</div>
+        </div>
+        <div class="feat">
+          <div class="feat-ico">🔄</div>
+          <div class="feat-name">Recurring</div>
+          <div class="feat-desc">Templates for recurring income, expenses and transfers. Monthly or yearly frequency.
+            One-tap apply when due.</div>
+        </div>
+        <div class="feat">
+          <div class="feat-ico">🎯</div>
+          <div class="feat-name">Budgets</div>
+          <div class="feat-desc">Overall monthly limit plus per-category budgets. Visual hairline progress bars with
+            warnings at 80% and 100%.</div>
+        </div>
+        <div class="feat">
+          <div class="feat-ico">📥</div>
+          <div class="feat-name">Import / Export</div>
+          <div class="feat-desc">Import transactions from any bank CSV. Export your full ledger anytime as a standard
+            CSV. No lock-in.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Full list -->
+  <section>
+    <div class="container">
+      <div class="lbl">Full feature list</div>
+      <h2 class="section-h">Everything included.</h2>
+      <div class="list-grid">
+        <div class="list-col">
+          <div class="list-title">Transactions</div>
+          <ul class="list-items">
+            <li>Income &amp; expense entry</li>
+            <li>Account-to-account transfers</li>
+            <li>Category tagging</li>
+            <li>Emoji icons per entry</li>
+            <li>Notes field</li>
+            <li>Full edit &amp; delete</li>
+            <li>Swipe-to-delete gesture</li>
+            <li>Full-text search</li>
+            <li>Filter by type</li>
+          </ul>
+        </div>
+        <div class="list-col">
+          <div class="list-title">Accounts &amp; Budgets</div>
+          <ul class="list-items">
+            <li>Unlimited accounts</li>
+            <li>Bank, cash, crypto, savings, investments</li>
+            <li>Net worth across all accounts</li>
+            <li>Overall monthly budget limit</li>
+            <li>Per-category budget limits</li>
+            <li>Warning at 80% spend</li>
+            <li>Month navigation (past &amp; future)</li>
+            <li>6-month trend chart</li>
+            <li>Month-over-month delta</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Compatibility -->
+  <section>
+    <div class="container">
+      <div class="lbl">Compatibility</div>
+      <h2 class="section-h">Runs everywhere.</h2>
+      <div class="compat-grid">
+        <div class="compat-body">
+          <p>Built as a Progressive Web App. Works in any modern browser with no installation required.</p>
+          <p>On iOS, use Safari → Share → Add to Home Screen for the full native experience with offline support and no
+            browser chrome.</p>
+          <p>On Android, Chrome will prompt you to install automatically. The service worker caches all assets so it
+            loads instantly — even with no connection.</p>
+        </div>
+        <div class="compat-tbl">
+          <div class="compat-hdr"><span>Platform support</span><span class="compat-score">6 / 6</span></div>
+          <div class="compat-row"><span class="compat-name">iOS Safari</span><span class="compat-chk">✓</span></div>
+          <div class="compat-row"><span class="compat-name">Android Chrome</span><span class="compat-chk">✓</span></div>
+          <div class="compat-row"><span class="compat-name">Desktop Chrome</span><span class="compat-chk">✓</span></div>
+          <div class="compat-row"><span class="compat-name">Desktop Firefox</span><span class="compat-chk">✓</span>
+          </div>
+          <div class="compat-row"><span class="compat-name">Desktop Safari</span><span class="compat-chk">✓</span></div>
+          <div class="compat-row"><span class="compat-name">Offline mode</span><span class="compat-chk">✓</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section id="pricing">
+    <div class="container-sm">
+      <div class="lbl">Pricing</div>
+      <h2 class="section-h">One payment. Forever.</h2>
+      <p style="color:var(--text2);margin-top:12px;font-size:15px">No subscriptions. No account. No ads. Updates
+        included.</p>
+      <div class="price-grid">
+        <div class="price-card">
+          <div class="price-tier">Free</div>
+          <div class="price-amt">€0</div>
+          <div class="price-note">Forever free · No card needed</div>
+          <ul class="price-list">
+            <li>Full app access</li>
+            <li>Unlimited transactions</li>
+            <li>All 5 modules</li>
+            <li>CSV import &amp; export</li>
+            <li>Offline support</li>
+          </ul>
+          <a href="app.html" class="price-btn ghost">Open App →</a>
+        </div>
+        <div class="price-card feat-card">
+          <div class="price-tag">Recommended</div>
+          <div class="price-tier">Support</div>
+          <div class="price-amt">€0</div>
+          <div class="price-note">One-time · DIY</div>
+          <ul class="price-list">
+            <li>Everything in Free</li>
+            <li>Supports future development</li>
+            <li>Early access to new features</li>
+            <li>You're a legend</li>
+          </ul>
+          <a href="#" class="price-btn">Support the project →</a>
+        </div>
+      </div>
+      <p class="price-foot">100% of your data stays on your device. No account, no tracking, no analytics.</p>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="foot-inner">
+        <span class="foot-logo">Budget</span>
+        <div class="foot-links">
+          <a href="app.html">Open App</a>
+          <a href="#features">Features</a>
+          <a href="#pricing">Pricing</a>
+        </div>
+        <span class="foot-copy">© 2025</span>
+      </div>
+    </div>
+  </footer>
+
+</body>
+
+</html>

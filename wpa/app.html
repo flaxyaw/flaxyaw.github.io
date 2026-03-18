@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en" class="theme-dark">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Budget">
+  <meta name="theme-color" content="#080808">
+  <title>Budget — App</title>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="theme.css">
+  <link rel="stylesheet" href="app.css">
+</head>
+
+<body>
+
+  <!-- ── Top Navigation ─────────────────────────────────────────────────────── -->
+  <div class="top-nav">
+    <div class="top-nav-inner">
+      <span class="nav-title">Budget</span>
+      <div class="spacer"></div>
+      <button class="nav-btn" id="btnExport" style="display:none" onclick="exportCSV()">↓ CSV</button>
+      <button class="nav-btn" id="btnImport" style="display:none" onclick="openImport()">↑ Import</button>
+      <button class="nav-btn" id="btnAddAcc" style="display:none" onclick="openAddAcc()">+ Account</button>
+      <button class="nav-btn" id="btnAddRec" style="display:none" onclick="openAddRecur()">+ Template</button>
+      <button class="nav-btn" id="btnAddBud" style="display:none" onclick="openAddBud(null)">+ Budget</button>
+    </div>
+  </div>
+
+  <!-- ── Scroll Area ────────────────────────────────────────────────────────── -->
+  <div class="scroll-area" id="SA">
+
+    <!-- OVERVIEW -->
+    <div class="page active" id="page-overview">
+      <div class="page-inner">
+        <div class="month-nav">
+          <button class="btn-icon" id="prevMonth">&#8249;</button>
+          <span class="month-label" id="monthLabel"></span>
+          <button class="btn-icon" id="nextMonth">&#8250;</button>
+        </div>
+        <div class="hero-card">
+          <div class="hero-label">Net This Month</div>
+          <div class="hero-amount" id="balAmt">€0.00</div>
+          <div class="hero-meta" id="momTxt"></div>
+        </div>
+        <div class="stat-grid">
+          <div class="stat-cell">
+            <div class="stat-label">Income</div>
+            <div class="stat-value inc" id="incAmt">€0.00</div>
+          </div>
+          <div class="stat-cell">
+            <div class="stat-label">Expenses</div>
+            <div class="stat-value exp" id="expAmt">€0.00</div>
+          </div>
+        </div>
+        <div id="obStrip"></div>
+        <div class="sec">6-Month Trend</div>
+        <div class="chart-wrap">
+          <div class="chart-legend">
+            <span class="leg"><span class="leg-dot" style="background:var(--green)"></span>Profit</span>
+            <span class="leg"><span class="leg-dot" style="background:var(--red)"></span>Loss</span>
+          </div>
+          <canvas id="tChart" style="width:100%;height:80px;display:block"></canvas>
+        </div>
+        <div id="catSection"></div>
+        <div class="sec">Recent</div>
+        <div class="card" id="recentList"></div>
+      </div>
+    </div>
+
+    <!-- LEDGER -->
+    <div class="page" id="page-transactions">
+      <div class="page-inner">
+        <div class="search-bar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+            stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8" />
+            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+          </svg>
+          <input type="search" id="txSearch" placeholder="Search…" oninput="renderLedger()" autocomplete="off"
+            autocorrect="off" spellcheck="false">
+        </div>
+        <div class="filter-row">
+          <button class="chip active" onclick="setF('all',this)">All</button>
+          <button class="chip" onclick="setF('expense',this)">Expenses</button>
+          <button class="chip" onclick="setF('income',this)">Income</button>
+          <button class="chip" onclick="setF('transfer',this)">Transfers</button>
+        </div>
+        <div class="card" id="ledgerList"></div>
+      </div>
+    </div>
+
+    <!-- ACCOUNTS -->
+    <div class="page" id="page-accounts">
+      <div class="page-inner">
+        <div class="sec first">Net Worth</div>
+        <div class="nw-card">
+          <div class="nw-top">
+            <span class="nw-label">All accounts</span>
+            <span class="nw-val" id="nwVal">€0.00</span>
+          </div>
+        </div>
+        <div class="sec">Accounts</div>
+        <div class="card" id="accList"></div>
+      </div>
+    </div>
+
+    <!-- RECURRING -->
+    <div class="page" id="page-recurring">
+      <div class="page-inner">
+        <div class="sec first">Templates</div>
+        <div class="card" id="recurList"></div>
+      </div>
+    </div>
+
+    <!-- BUDGETS -->
+    <div class="page" id="page-budgets">
+      <div class="page-inner">
+        <div class="month-nav" style="padding-top:14px">
+          <button class="btn-icon" id="prevMonthB">&#8249;</button>
+          <span class="month-label" id="monthLabelB"></span>
+          <button class="btn-icon" id="nextMonthB">&#8250;</button>
+        </div>
+        <div id="obCard"></div>
+        <div class="sec">Category Budgets</div>
+        <div class="card" id="budList"></div>
+      </div>
+    </div>
+
+  </div><!-- /scroll-area -->
+
+  <!-- ── Bottom Tab Bar ─────────────────────────────────────────────────────── -->
+  <div class="bottom-tabs">
+    <button class="tab active" id="tab-overview" onclick="showPage('overview')">
+      <svg viewBox="0 0 24 24">
+        <rect x="3" y="3" width="7" height="7" />
+        <rect x="14" y="3" width="7" height="7" />
+        <rect x="3" y="14" width="7" height="7" />
+        <rect x="14" y="14" width="7" height="7" />
+      </svg>
+      Overview
+    </button>
+    <button class="tab" id="tab-transactions" onclick="showPage('transactions')">
+      <svg viewBox="0 0 24 24">
+        <line x1="3" y1="6" x2="21" y2="6" />
+        <line x1="3" y1="12" x2="21" y2="12" />
+        <line x1="3" y1="18" x2="21" y2="18" />
+      </svg>
+      Ledger
+    </button>
+    <button class="tab" id="tab-accounts" onclick="showPage('accounts')">
+      <svg viewBox="0 0 24 24">
+        <rect x="2" y="5" width="20" height="14" rx="1" />
+        <line x1="2" y1="10" x2="22" y2="10" />
+      </svg>
+      Accounts
+    </button>
+    <button class="tab" id="tab-recurring" onclick="showPage('recurring')">
+      <svg viewBox="0 0 24 24">
+        <polyline points="1 4 1 10 7 10" />
+        <path d="M3.51 15a9 9 0 1 0 .49-4.5" />
+      </svg>
+      Recurring
+    </button>
+    <button class="tab" id="tab-budgets" onclick="showPage('budgets')">
+      <svg viewBox="0 0 24 24">
+        <line x1="12" y1="1" x2="12" y2="23" />
+        <path d="M17 5H9.5a3.5 3.5 0 1 0 0 7h5a3.5 3.5 0 1 0 0 7H6" />
+      </svg>
+      Budgets
+    </button>
+  </div>
+
+  <!-- ── FAB + Quick Menu ───────────────────────────────────────────────────── -->
+  <div class="quick-menu" id="QM">
+    <div class="quick-item" onclick="closeQM();openAddTx('expense')">🔴 Expense</div>
+    <div class="quick-item" onclick="closeQM();openAddTx('income')">🟢 Income</div>
+    <div class="quick-item" onclick="closeQM();openTr()">🔄 Transfer</div>
+  </div>
+  <button class="fab" id="fab">+</button>
+
+  <!-- ── Due-Recurring Banner ───────────────────────────────────────────────── -->
+  <div class="due-banner" id="dueBanner" style="display:none">
+    <div class="banner-label">Due This Month</div>
+    <div id="dueList"></div>
+    <div class="due-acts">
+      <button class="btn" onclick="applyDue()">Apply All</button>
+      <button class="btn-ghost" onclick="dismissDue()">Dismiss</button>
+    </div>
+  </div>
+
+  <!-- ── Toast ──────────────────────────────────────────────────────────────── -->
+  <div class="toast" id="toast"></div>
+
+
+  <!-- ════════════════════ SHEETS ════════════════════ -->
+
+  <!-- TX SHEET -->
+  <div class="overlay" id="txOv">
+    <div class="sheet">
+      <div class="sheet-header">
+        <span class="sheet-title" id="txTitle">New Entry</span>
+        <button class="btn-icon" onclick="closeTxOv()">✕</button>
+      </div>
+      <div class="seg" style="grid-template-columns:1fr 1fr">
+        <button class="seg-btn active" id="expBtn" onclick="setType('expense')">Expense</button>
+        <button class="seg-btn" id="incBtn" onclick="setType('income')">Income</button>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Amount</label>
+        <div class="input-wrap"><span class="input-prefix">€</span><input type="number" id="txAmt" placeholder="0.00"
+            step="0.01" min="0" inputmode="decimal"></div>
+      </div>
+      <div class="form-group"><label class="form-label">Description</label><input type="text" id="txName"
+          placeholder="Coffee, Rent, Salary…" autocomplete="off"></div>
+      <div class="form-group"><label class="form-label">Account</label> <select id="txAcc"></select></div>
+      <div class="form-group"><label class="form-label">Category</label> <select id="txCat"></select></div>
+      <div class="form-group"><label class="form-label">Date</label> <input type="date" id="txDate"></div>
+      <div class="form-group"><label class="form-label">Notes</label> <textarea id="txNotes"
+          placeholder="Optional…"></textarea></div>
+      <div class="form-group"><label class="form-label">Icon</label>
+        <div class="emoji-grid" id="txEmoGrid"></div>
+      </div>
+      <button class="btn" onclick="saveTx()">Save</button>
+      <button class="btn-danger" id="txDelBtn" style="display:none" onclick="delTx()">Delete Entry</button>
+    </div>
+  </div>
+
+  <!-- TRANSFER SHEET -->
+  <div class="overlay" id="trOv">
+    <div class="sheet">
+      <div class="sheet-header">
+        <span class="sheet-title">Transfer</span>
+        <button class="btn-icon" onclick="closeTrOv()">✕</button>
+      </div>
+      <div class="form-group"><label class="form-label">From</label><select id="trFrom"></select></div>
+      <div style="text-align:center;padding:2px 0;color:var(--muted);font-size:18px">↓</div>
+      <div class="form-group"><label class="form-label">To</label><select id="trTo"></select></div>
+      <div class="form-group">
+        <label class="form-label">Amount</label>
+        <div class="input-wrap"><span class="input-prefix">€</span><input type="number" id="trAmt" placeholder="0.00"
+            step="0.01" min="0" inputmode="decimal"></div>
+      </div>
+      <div class="form-group"><label class="form-label">Date</label> <input type="date" id="trDate"></div>
+      <div class="form-group"><label class="form-label">Notes</label><input type="text" id="trNotes"
+          placeholder="Optional…" autocomplete="off"></div>
+      <button class="btn" onclick="saveTr()">Execute Transfer</button>
+    </div>
+  </div>
+
+  <!-- ACCOUNT SHEET -->
+  <div class="overlay" id="accOv">
+    <div class="sheet">
+      <div class="sheet-header">
+        <span class="sheet-title" id="accTitle">New Account</span>
+        <button class="btn-icon" onclick="closeAccOv()">✕</button>
+      </div>
+      <div class="form-group"><label class="form-label">Name</label><input type="text" id="accName"
+          placeholder="Revolut, Cash, MetaMask…" autocomplete="off"></div>
+      <div class="form-group">
+        <label class="form-label">Type</label>
+        <select id="accType">
+          <option value="bank">Bank Account</option>
+          <option value="crypto">Crypto Wallet</option>
+          <option value="cash">Cash</option>
+          <option value="savings">Savings</option>
+          <option value="investment">Investment</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+      <div class="form-group"><label class="form-label">Currency / Token</label><input type="text" id="accCur"
+          placeholder="EUR, BTC, ETH…" autocomplete="off"></div>
+      <div class="form-group"><label class="form-label">Icon</label>
+        <div class="emoji-grid" id="accEmoGrid"></div>
+      </div>
+      <button class="btn" onclick="saveAcc()">Save Account</button>
+      <button class="btn-danger" id="accDelBtn" style="display:none" onclick="delAcc()">Delete Account</button>
+    </div>
+  </div>
+
+  <!-- RECURRING SHEET -->
+  <div class="overlay" id="rcOv">
+    <div class="sheet">
+      <div class="sheet-header">
+        <span class="sheet-title" id="rcTitle">New Template</span>
+        <button class="btn-icon" onclick="closeRcOv()">✕</button>
+      </div>
+      <div class="seg" style="grid-template-columns:1fr 1fr 1fr">
+        <button class="seg-btn active" id="rExpBtn" onclick="setRType('expense')">Expense</button>
+        <button class="seg-btn" id="rIncBtn" onclick="setRType('income')">Income</button>
+        <button class="seg-btn" id="rTrBtn" onclick="setRType('transfer')">Transfer</button>
+      </div>
+      <div class="form-group"><label class="form-label">Name</label><input type="text" id="rcName"
+          placeholder="Netflix, Rent, Investments…" autocomplete="off"></div>
+      <div class="form-group">
+        <label class="form-label">Amount</label>
+        <div class="input-wrap"><span class="input-prefix">€</span><input type="number" id="rcAmt" placeholder="0.00"
+            step="0.01" min="0" inputmode="decimal"></div>
+      </div>
+      <div class="form-group"><label class="form-label" id="rcAccLbl">From Account</label><select id="rcAcc"></select>
+      </div>
+      <div class="form-group" id="rcToWrap" style="display:none"><label class="form-label">To Account</label><select
+          id="rcAccTo"></select></div>
+      <div class="form-group" id="rcCatWrap"><label class="form-label">Category</label><select id="rcCat"></select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Frequency</label>
+        <select id="rcFreq">
+          <option value="monthly">Monthly</option>
+          <option value="yearly">Yearly</option>
+        </select>
+      </div>
+      <div class="form-group"><label class="form-label">Day of Month</label><input type="number" id="rcDay"
+          placeholder="1–28" min="1" max="28" inputmode="numeric"></div>
+      <div class="form-group"><label class="form-label">Icon</label>
+        <div class="emoji-grid" id="rcEmoGrid"></div>
+      </div>
+      <button class="btn" onclick="saveRc()">Save Template</button>
+      <button class="btn-danger" id="rcDelBtn" style="display:none" onclick="delRc()">Delete Template</button>
+    </div>
+  </div>
+
+  <!-- BUDGET SHEET -->
+  <div class="overlay" id="budOv">
+    <div class="sheet">
+      <div class="sheet-header">
+        <span class="sheet-title" id="budTitle">Set Budget</span>
+        <button class="btn-icon" onclick="closeBudOv()">✕</button>
+      </div>
+      <div class="form-group" id="budCatWrap"><label class="form-label">Category</label><select id="budCat"></select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Monthly Limit</label>
+        <div class="input-wrap"><span class="input-prefix">€</span><input type="number" id="budAmt" placeholder="0.00"
+            step="0.01" min="0" inputmode="decimal"></div>
+      </div>
+      <button class="btn" onclick="saveBud()">Save Budget</button>
+      <button class="btn-danger" id="budDelBtn" style="display:none" onclick="delBud()">Remove Budget</button>
+    </div>
+  </div>
+
+  <!-- IMPORT SHEET -->
+  <div class="overlay" id="impOv">
+    <div class="sheet">
+      <div class="sheet-header">
+        <span class="sheet-title">Import CSV</span>
+        <button class="btn-icon" onclick="closeImpOv()">✕</button>
+      </div>
+      <div style="font-size:10px;color:var(--muted);line-height:1.7;margin-bottom:14px">
+        Required columns: <b style="color:var(--text2)">Date, Description, Type, Amount, Account</b><br>
+        Type: <b style="color:var(--text2)">expense</b> or <b style="color:var(--text2)">income</b> &nbsp;·&nbsp;
+        Date: <b style="color:var(--text2)">YYYY-MM-DD</b>
+      </div>
+      <label class="import-drop" for="impFile">
+        <div style="font-size:22px;margin-bottom:6px">↑</div>
+        Tap to select CSV file
+      </label>
+      <input type="file" id="impFile" accept=".csv" style="display:none" onchange="handleImp(this)">
+      <div id="impResult"></div>
+    </div>
+  </div>
+
+
+  <!-- ════════════════════ SCRIPTS ════════════════════ -->
+  <script src="data.js"></script>
+  <script src="render.js"></script>
+  <script src="sheets.js"></script>
+  <script src="main.js"></script>
+
+</body>
+
+</html>
